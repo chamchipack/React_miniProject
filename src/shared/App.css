@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+.plus {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  color: #ffb72b;
+}
+
+.bgImage {
+  width: 50%;
+  height: 250px;
+  background-position: center;
+  background-size: cover;
+}
