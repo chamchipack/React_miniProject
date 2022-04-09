@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import Input from "../element/Input"
+import Input from "../elements/Input"
 import { useHistory } from "react-router-dom";
 
 

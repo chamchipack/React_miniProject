@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Route } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
-import Input from "../element/Input";
+import Input from "../elements/Input";
 import SideBar from "./SideBar";
 
 
