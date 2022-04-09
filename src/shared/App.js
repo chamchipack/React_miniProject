@@ -6,10 +6,12 @@ import Main from '../pages/Main';
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
 import MyPageAuth from '../pages/MyPageAuth';
+import Header from '../components/Header';
 
 function App() {
   return (
     <div className="App">
+      <Header/>
       <Route exact path='/' component={Main}/>
       <Route exact path='/add' component={Add}/>
       <Route exact path='/userEnter' component={Enter}/>
