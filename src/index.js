@@ -4,10 +4,14 @@ import './index.css';
 import App from './shared/App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route} from 'react-router-dom';
+import {Provider} from 'react-redux';
+import store from './redux/configureStore'
 
 ReactDOM.render(
     <BrowserRouter>
+    <Provider store={store}>
       <App />
+      </Provider>
     </BrowserRouter>,
   document.getElementById('root')
 );

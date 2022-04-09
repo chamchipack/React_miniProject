@@ -1,15 +1,37 @@
 // import '../shared/Add.css';
+import axios from 'axios';
+import { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import {Grid, Input} from '../elements/index';
+import {actionCreators as imageActions} from '../redux/modules/image';
 
 function Add(){
+    const dispatch = useDispatch();
+    const fileInput = useRef();
+    let imageFile = '';
+    const changePreview = (e) => {
+        const reader = new FileReader();
+        const file = fileInput.current.files[0]
+        reader.readAsDataURL(file)
+        reader.onloadend = () =>{
+            imageFile = reader.result;
+            console.log(imageFile)
+            dispatch(imageActions.uploadImageDB(imageFile))
+        }
+    }
+
+    const preview = useSelector(state => state.image.preview)
+    console.log(preview)
+
+    
     return(
         <>
-        <Background>
-            <InnerTopBox>
-                <input type='file'/>
-                <input type='text' placeholder='URL입력'/>
-            </InnerTopBox>
-            <InnerTopBox>
+        <Grid width='1200px' height='1000px' margin='0 auto'>
+            <Grid border='3px solid green' width='50%' margin='0 auto'>
+                    <input ref={fileInput} onChange={changePreview} type='file'/>
+                    <Input type='text' placeholder='URL'/>
+                
                 <Select>
                     <option>1번옵션</option>
                     <option>2번옵션</option>
@@ -17,52 +39,26 @@ function Add(){
                     <option>4번옵션</option>
                     <option>5번옵션</option>
                 </Select>
-            </InnerTopBox>
-            <InnerBotBox>
-                <img src='https://s3-ap-northeast-1.amazonaws.com/solution-userstats/metadata/character/2ecb10f5e23493727a80a91421d6242a18b131f743676e72317bde4bd5d27131.png'/>
-            </InnerBotBox>
-            <InnerBotBox>
+            </Grid>
+            <Grid>
+                <img style={{margin:'30px'}} src={preview}/>
                 <TextArea />
-            </InnerBotBox>
+            </Grid>
             <Button></Button>
-        </Background>
+        </Grid>
         </>
     )
 }
 
-export const Background = styled.div`
-    width: 1200px;
-    height: 1000px;
-    background-color: #eee;
-    margin: 0 auto;
-    padding: 30px;
-`
-export const InnerTopBox = styled.div`
-    width:50%;
-    height:20%;
-    float: left;
-    background-color:skyblue;
-    padding : 30px;
-`
-export const InnerBotBox = styled.div`
-    width: 50%;
-    height: 60%;
-    float: left;
-    background-color:white;
-    border: 0.5px solid gray;
-    padding-top:50px;
-`
 export const Select = styled.select`
-    margin-left: -59%;
+    margin-left: 0%;
     margin-top: 20%;
     margin-bottom: 10%;
     border: none;
-    width: 100px;
-    height: 30px;
 `
 export const TextArea = styled.input`
 resize: none;
-    width: 70%;
+    width: 50%;
     height: 300px;
     border: 3px solid gray;
     border-radius: 10px;

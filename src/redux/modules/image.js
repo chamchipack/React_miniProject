@@ -1,7 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 
-import { storage } from "../../shared/firebase";
 
 const UPLOADING = "UPLOADING"; // 업로드중인지?
 const UPLOAD_IMAGE = "UPLOAD_IMAGE";
@@ -17,28 +16,35 @@ const initailState = {
   preview: null, 
 };
 
-const uploadImageFB = (image) => {
-  return function (dispatch, getState, { history }) {
-    dispatch(uploading(true));
+const uploadImageDB = (imageFile) => {
+  return function (dispatch){
+    console.log(imageFile)
+    dispatch(setPreview(imageFile))
+  }
+}
 
-    console.log(`images/${new Date().getTime()}_${image.name}`);
-    const _upload = storage.ref(`images/${image.name}`).put(image);
+// const uploadImageFB = (image) => {
+//   return function (dispatch, getState, { history }) {
+//     dispatch(uploading(true));
 
-    // 업로드
-    _upload
-      .then((snapshot) => {
-        console.log(snapshot);
-        dispatch(uploading(false));
-        snapshot.ref.getDownloadURL().then((url) => {
-          dispatch(uploadImage(url));
-          console.log(url);
-        });
-      })
-      .catch((err) => {
-        dispatch(uploading(false));
-      });
-  };
-};
+//     console.log(`images/${new Date().getTime()}_${image.name}`);
+//     const _upload = storage.ref(`images/${image.name}`).put(image);
+
+//     // 업로드
+//     _upload
+//       .then((snapshot) => {
+//         console.log(snapshot);
+//         dispatch(uploading(false));
+//         snapshot.ref.getDownloadURL().then((url) => {
+//           dispatch(uploadImage(url));
+//           console.log(url);
+//         });
+//       })
+//       .catch((err) => {
+//         dispatch(uploading(false));
+//       });
+//   };
+// };
 
 
 // reducer
@@ -56,15 +62,15 @@ export default handleActions(
     [SET_PREVIEW]: (state, action) =>
       produce(state, (draft) => {
         draft.preview = action.payload.preview;
-      })
+      }),
   },
   initailState
 );
 
 // 이하 액션 내보내기
 const actionCreators = {
-  uploadImage,
-  uploadImageFB,
+  uploadImageDB,
+  //uploadImageFB,
   setPreview,
 };
 
