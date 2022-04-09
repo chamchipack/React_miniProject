@@ -1,14 +1,12 @@
 import '../shared/App.css';
 import React from "react";
 import styled from "styled-components";
-import Header from "../components/Header";
 import Article from '../components/Article';
 import { BsPatchPlus } from "react-icons/bs";
 
 const Main = (props) => {
   return (
     <>
-      <Header />
       <img className="bgImage" src="main.png" />
       <img className="bgImage" src="main.png" />
       <BsPatchPlus className="plus" size={60} />

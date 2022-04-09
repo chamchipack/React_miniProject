@@ -9,10 +9,12 @@ import MyPageAuth from '../components/MyPageAuth';
 import MyPage from '../pages/MyPage';
 import MyLikeArticle from '../components/MyLikeArticle';
 import ChangeNick from '../components/ChangeNick';
+import Header from '../components/Header';
 
 function App() {
   return (
     <div className="App">
+      <Header/>
       <Route exact path='/' component={Main}/>
       <Route exact path='/add' component={Add}/>
       <Route exact path='/userEnter' component={Enter}/>
