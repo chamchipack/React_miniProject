@@ -1,6 +1,5 @@
 // import '../shared/Add.css';
-import axios from 'axios';
-import { useEffect, useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import {Grid, Input} from '../elements/index';
@@ -8,7 +7,12 @@ import {actionCreators as imageActions} from '../redux/modules/image';
 
 function Add(){
     const dispatch = useDispatch();
+    let [option, setOption] = useState();
+    let [file, setFile] = useState();
+    let [text, setText] = useState();
+    
     const fileInput = useRef();
+    const textInput = useRef();
     let imageFile = '';
     const changePreview = (e) => {
         const reader = new FileReader();
@@ -16,14 +20,22 @@ function Add(){
         reader.readAsDataURL(file)
         reader.onloadend = () =>{
             imageFile = reader.result;
-            console.log(imageFile)
+            setFile(imageFile)
             dispatch(imageActions.uploadImageDB(imageFile))
         }
     }
-
     const preview = useSelector(state => state.image.preview)
-    console.log(preview)
 
+    const selectOption = (e) => {
+        let option = e.target.value
+        setOption(option);
+    }
+    const submit = () => {
+        console.log(option, file, text)
+    }
+    const textChange = () => {
+        setText(textInput.current.value)
+    }
     
     return(
         <>
@@ -32,7 +44,7 @@ function Add(){
                     <input ref={fileInput} onChange={changePreview} type='file'/>
                     <Input type='text' placeholder='URL'/>
                 
-                <Select>
+                <Select onChange={selectOption}>
                     <option>1번옵션</option>
                     <option>2번옵션</option>
                     <option>3번옵션</option>
@@ -42,9 +54,9 @@ function Add(){
             </Grid>
             <Grid>
                 <img style={{margin:'30px'}} src={preview}/>
-                <TextArea />
+                <TextArea onChange={textChange} ref={textInput} />
             </Grid>
-            <Button></Button>
+            <Button onClick={()=>{submit()}}>저장하기</Button>
         </Grid>
         </>
     )

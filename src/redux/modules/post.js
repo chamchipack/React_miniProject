@@ -1,9 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import {produce} from "immer";
-
-import { actionCreators as imageActions } from "./image";
 import axios from "axios";
-
 
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
@@ -16,21 +13,19 @@ const initialState = {
 }
 
 
-
-
-const addPostDB = (articleDesc, articleThumb, articleKind) => {
+const addPostDB = (imageFile, text, option) => {
   return function(dispatch, getState){
-    const user_id = getState().user;
     axios({
       method : 'post',
       url : '...',
       data : {
-        cookie : user_id,
-        articleDesc : articleDesc,
-        articleThumb : articleThumb,
-        articleThumb : articleKind,
+        articleDesc : text,
+        articleThumb : imageFile,
+        articleKind : option,
       },
-      
+      headers : {
+        Authorization : `sends with token`
+      },
     })
     .then(response=>{
 
@@ -40,7 +35,6 @@ const addPostDB = (articleDesc, articleThumb, articleKind) => {
     })
   }
 }
-
 
 
 const getPostDB = () => {
