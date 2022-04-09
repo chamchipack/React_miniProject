@@ -2,15 +2,19 @@ import React from "react";
 import styled from "styled-components";
 
 import Input from "../element/Input"
+import { useHistory } from "react-router-dom";
 
 
 const SignUp = () => {
+
+  const history = useHistory();
 
   return (
     <React.Fragment>
       <Wrap>
         <Content>
           <Input label="아이디" placeholder="아이디를 입력해주세요." />
+          <button>중복확인</button>
         </Content>
 
         <Content>
@@ -24,7 +28,10 @@ const SignUp = () => {
           <Input label="비밀번호 확인" type="password" placeholder="비밀번호를 확인해주세요." />
         </Content>
         <div>
-          <Button>회원가입</Button>
+          <Button onClick={() => {
+
+            // history.push("/login")  회원가입하면 바로 로그인페이지 이동. (단, 검증이 되었을시!)
+          }}>회원가입</Button>
         </div>
       </Wrap>
     </React.Fragment>

@@ -1,31 +1,26 @@
 import React from "react";
 import styled from "styled-components";
-
 import Input from "../element/Input";
 
-const Login = () => {
+const ChangeNick = () => {
 
   return (
     <React.Fragment>
       <Wrap>
         <Content>
-          <Input label="아이디" placeholder="아이디를 입력해주세요."/>
+          <Input label="닉네임 변경" placeholder="변경할 닉네임을 입력해주세요."/>
         </Content>
-
-        <Content>
-          <Input label="비밀번호" type="password" placeholder="비밀번호를 입력해주세요."/>
-        </Content>
-      
 
         <div>
-          <Button onClick={() => {}}>로그인</Button>
+          {/* 기존 닉네임 받아온 후에 입력한 값과 같은지 확인하는 함수 넣기 */}
+          <Button onClick={() => {}}>변경</Button>
         </div>
       </Wrap>
     </React.Fragment>
   )
 }
 
-export default Login;
+export default ChangeNick;
 
 const Wrap = styled.div`
   box-sizing: border-box;
