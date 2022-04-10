@@ -2,7 +2,7 @@
 import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import {Grid, Input} from '../elements/index';
+import {Grid, Input, Text, Button} from '../elements/index';
 import {actionCreators as imageActions} from '../redux/modules/image';
 
 function Add(){
@@ -39,11 +39,13 @@ function Add(){
     
     return(
         <>
-        <Grid width='1200px' height='1000px' margin='0 auto'>
-            <Grid border='3px solid green' width='50%' margin='0 auto'>
-                    <input ref={fileInput} onChange={changePreview} type='file'/>
-                    <Input type='text' placeholder='URL'/>
-                
+        <Grid width='80%' margin='0 auto' border='3px solid green'>
+            <Grid>
+                <Text size='30px' bold='30'>게시물 작성</Text>
+            </Grid>
+            <Grid width='50%' margin='-10% auto'>
+                <input ref={fileInput} onChange={changePreview} type='file'/>
+                <Input type='text' placeholder='URL'/>
                 <Select onChange={selectOption}>
                     <option>1번옵션</option>
                     <option>2번옵션</option>
@@ -52,41 +54,34 @@ function Add(){
                     <option>5번옵션</option>
                 </Select>
             </Grid>
+            <Grid margin='10% 0 0 0'>
+                <img style={{borderRadius:'20px', width:'50%', margin:'10px'}} src={preview? preview : "http://via.placeholder.com/400x300"}/>
+            </Grid>
             <Grid>
-                <img style={{margin:'30px'}} src={preview}/>
                 <TextArea onChange={textChange} ref={textInput} />
             </Grid>
-            <Button onClick={()=>{submit()}}>저장하기</Button>
+            <Grid margin='5% 0 5% 0'>
+                <Button width='50%' _onClick={submit()}>저장하기</Button>
+            </Grid>
         </Grid>
         </>
     )
 }
 
 export const Select = styled.select`
-    margin-left: 0%;
+    width:100px;
     margin-top: 20%;
     margin-bottom: 10%;
     border: none;
 `
 export const TextArea = styled.input`
 resize: none;
-    width: 50%;
-    height: 300px;
+    width: 48%;
+    height: 200px;
     border: 3px solid gray;
     border-radius: 10px;
     padding: 10px;
+    font-size : 20px;
 `
-export const Button = styled.button`
-width: 15%;
-    height: 40px;
-    border-radius: 10px;
-    border: none;
-    background-color: green;
-    position: relative;
-    right: -350px;
-    color: white;
-    margin-top: 50px;
-`
-
 
 export default Add
