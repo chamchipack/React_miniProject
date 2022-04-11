@@ -64,6 +64,7 @@ export default handleActions(
 const actionCreators = {
   setPost,
   addPost,
+  addPostDB
 }
 
 export {actionCreators};

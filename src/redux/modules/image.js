@@ -18,7 +18,6 @@ const initailState = {
 
 const uploadImageDB = (imageFile) => {
   return function (dispatch){
-    console.log(imageFile)
     dispatch(setPreview(imageFile))
   }
 }
