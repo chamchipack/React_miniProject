@@ -36,7 +36,7 @@ const Wrap = styled.div`
   justify-content: center;
   align-items: center;
   margin: auto;
-  margin-top: 50px;
+  margin-top: 100px;
   box-shadow: 0px 7px 10px #ccc;
   border-radius: 10px;
 `;
@@ -54,4 +54,8 @@ const Button = styled.button`
   padding: 10px 20px;
   border-radius: 5px;  
   font-weight: 700;
+
+  &:hover {
+    background: #ddd;
+  }
 `;
