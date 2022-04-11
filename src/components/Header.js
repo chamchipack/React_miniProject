@@ -22,7 +22,7 @@ const Header = (props) => {
   const is_login = useSelector((state) => state.user.is_login);
 
    // 토큰을 받아왔어도 헤더는 받아오기전상태를 유지하기 떄문에 undefined
-
+ 
   const dispatch = useDispatch();
   if (session && is_login) {
     return (
