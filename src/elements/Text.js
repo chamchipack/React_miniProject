@@ -18,6 +18,7 @@ Text.defaultProps = {
 };
 
 const P = styled.p`
+
   color: ${(props) => props.color};
   font-family: ${(props) => props.font};
   font-size: ${(props) => props.size};

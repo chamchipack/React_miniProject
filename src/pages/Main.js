@@ -3,14 +3,24 @@ import React from "react";
 import styled from "styled-components";
 import Article from '../components/Article';
 import { BsPatchPlus } from "react-icons/bs";
+import { useSelector, useDispatch } from "react-redux";
 
 const Main = (props) => {
+  const {history} = props;
+  const dispatch = useDispatch();
+  const articleList = useSelector((state) => state.article.list);
+  console.log(articleList);
   return (
     <>
       <img className="bgImage" src="main.png" />
       <img className="bgImage" src="main.png" />
-      <BsPatchPlus className="plus" size={60} />
+      <BsPatchPlus className="plus" size={60}  onClick={() => {
+            history.push("/login");
+          }}/>
       <ArticleList>
+      <Article/>
+      <Article/>
+      <Article/>
       <Article/>
       <Article/>
       <Article/>

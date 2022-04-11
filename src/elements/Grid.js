@@ -52,9 +52,7 @@ const GridBox = styled.div`
   height: 100%;
   box-sizing: border-box;
   ${(props) =>
-    props.border
-      ? `border: 2px solid #ffb72b; border-radius: 10px;`
-      : ""}
+    props.border ? `border: 2px solid #ffb72b; border-radius: 10px;` : ""}
   ${(props) => (props.padding ? `padding: ${props.padding};` : "")}
     ${(props) => (props.margin ? `margin: ${props.margin};` : "")}
     ${(props) => (props.bg ? `background-color: ${props.bg};` : "")}
@@ -65,10 +63,7 @@ const GridBox = styled.div`
     ${(props) => (props.center ? `text-align: center` : "")}
     ${(props) =>
     props.flex
-      ? `position: relative;
- display: flex;
-  justify-content: center;
-  flex-direction: column;`
+      ? `position: relative; display: flex; justify-content: center; flex-direction: column;`
       : ""};
 `;
 
