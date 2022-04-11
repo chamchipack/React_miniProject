@@ -1,10 +1,9 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 
-import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
+// import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
 
-import { auth } from "../../shared/firebase";
-import firebase from "firebase/app";
+// import { auth } from "../../shared/firebase";
 
 // actions
 const LOG_OUT = "LOG_OUT";
