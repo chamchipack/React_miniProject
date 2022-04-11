@@ -3,7 +3,17 @@ import styled from "styled-components";
 import { FiSearch } from "react-icons/fi";
 import { Button, Input, Text } from "../elements";
 import { history } from "../redux/configureStore";
+import { actionCreators as searchActions } from "../redux/modules/article";
+import { useDispatch } from "react-redux";
+
 const Header = (props) => {
+  const dispatch = useDispatch();
+  const searchRef = React.useRef(null);
+  const searchClick = () => {
+    dispatch(searchActions.searchFB(searchRef.current.value))
+    console.log(searchRef);
+  };
+
   return (
     <HeaderDiv>
       <p
@@ -32,6 +42,7 @@ const Header = (props) => {
             width: "100px",
             height: "30px",
             border: "none",
+            outline: "none",
             backgroundColor: "#f7f7f7",
           }}
           name="category"
@@ -46,12 +57,14 @@ const Header = (props) => {
           style={{
             height: "40px",
             border: "none",
+            outline: "none",
             borderBottom: "2px solid #ffb72b",
             backgroundColor: "#f7f7f7",
           }}
           type="text"
+          ref={searchRef}
         />
-        <FiSearch size={30} />
+        <FiSearch size={30} onClick={searchClick}/>
       </div>
       <div
         style={{
