@@ -50,7 +50,7 @@ const SignUp = () => {
       window.alert("패스워드가 다릅니다.")
       return;
     }
-
+  
   }
 
   return (
