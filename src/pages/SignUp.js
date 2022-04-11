@@ -3,6 +3,9 @@ import styled from "styled-components";
 
 import Input from "../elements/Input"
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { actionCreators as userActions } from "../redux/modules/user";
 
 
 const SignUp = () => {
@@ -12,7 +15,7 @@ const SignUp = () => {
   const [pw, setPw] = React.useState("");
   const [checkPw, setCheckPw] = React.useState("");
 
-
+  const dispatch = useDispatch();
 
   const history = useHistory();
 
@@ -28,56 +31,80 @@ const SignUp = () => {
     return pattern.test(pw);    // 맞으면 true, 틀리면 false반환
   }
 
-  // 닉네임 중복확인
-  const checkName = () => {
-
-  }
 
   // 아이디 중복확인
   const checkId = () => {
     if (id === "") {
-      window.alert("공란입니다!")
-      return
+      window.alert("공란입니다!");
+      return;
+    } else if (!is_id(id)) {
+      window.alert("4-12자 이내 대문자, 소문자 영어와 숫자만 가능!")
+      return;
+    } else {
+      window.alert("사용 가능한 아이디입니다!")
     }
+    
     console.log("중복요청 dispatch실행!")
   }
 
+
+  // 회원가입
   const signup = () => {
     if (id === "" || name === "" || pw === "" || checkPw === "") {
       window.alert("공란입니다!")
       return;
-    } else if (pw !== checkPw){
-      window.alert("패스워드가 다릅니다.")
+    } 
+    if (!is_id(id)) {
+      window.alert("아이디 형식이 맞지 않습니다!");
+      return;
+    }
+    if (!is_pw(pw)) {
+      window.alert("비밀번호 형식이 맞지 않습니다!");
+      return;
+    }
+    if (pw !== checkPw) {
+      window.alert("비밀번호가 다릅니다!");
       return;
     }
   
+    dispatch(userActions.signUpDB(id, name, pw));
+
   }
+
 
   return (
     <React.Fragment>
       <Wrap>
         <Content>
           <Input label="아이디" placeholder="아이디를 입력해주세요." 
-            onChange={(e) => {setId(e.target.value); console.log(id)}}
-            
-          />
-          <button onClick={checkId}>중복확인</button>
+            _onChange={(e) => { 
+              setId(e.target.value);
+            }} />
         </Content>
 
         <Content>
-          <Input label="닉네임" placeholder="닉네임를 입력해주세요." />
+          <Input label="닉네임" placeholder="닉네임를 입력해주세요." 
+            _onChange={(e) => { 
+              setName(e.target.value);
+            }} />
         </Content>
 
         <Content>
-          <Input label="비밀번호" type="password" placeholder="비밀번호를 입력해주세요."  />
+          <Input label="비밀번호" type="password" placeholder="비밀번호를 입력해주세요." 
+            _onChange={(e) => { 
+              setPw(e.target.value);
+            }} />
         </Content>
         <Content>
-          <Input label="비밀번호 확인" type="password" placeholder="비밀번호를 확인해주세요."  />
+          <Input label="비밀번호 확인" type="password" placeholder="비밀번호를 확인해주세요." 
+            _onChange={(e) => { 
+              setCheckPw(e.target.value);
+            }}  />
         </Content>
         <div>
           <Button onClick={() => {
             signup();
-            // history.push("/login")  회원가입하면 바로 로그인페이지 이동. (단, 검증이 되었을시!)
+            // history.push("/login")  // 회원가입하면 바로 로그인페이지 이동. (단, 검증이 되었을시!)
           }}>회원가입</Button>
         </div>
       </Wrap>
