@@ -21,6 +21,7 @@ const MyPageAuth = () => {
         <div>
           {/* useState로 비밀번호 불러오기 */}
           {/* 불러온 비밀번호랑 여기서 입력한 비밀번호랑 같으면!! 닉네임변경 컴포넌트로 이동. */}
+          {/* 유효시간을 줘야하나? 잘못 눌렀을시에 매번 입력할수는 없으니까 */}
           {/* 일단 조건 없이 페이지 이동 걸어놓음 */}
           <Button onClick={() => {
 
@@ -46,7 +47,7 @@ const Wrap = styled.div`
   justify-content: center;
   align-items: center;
   margin: auto;
-  margin-top: 50px;
+  margin-top: 100px;
   box-shadow: 0px 7px 10px #ccc;
   border-radius: 10px;
 `;
@@ -64,6 +65,10 @@ const Button = styled.button`
   padding: 10px 20px;
   border-radius: 5px;  
   font-weight: 700;
+
+  &:hover {
+    background: #ddd;
+  }
 `;
 
 

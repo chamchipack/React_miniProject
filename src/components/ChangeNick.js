@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Input from "../elements/Input";
+import SideBar from "./SideBar";
 
 const ChangeNick = () => {
 
@@ -16,6 +17,9 @@ const ChangeNick = () => {
           <Button onClick={() => {}}>변경</Button>
         </div>
       </Wrap>
+      <Bar>
+        <SideBar/>
+      </Bar>
     </React.Fragment>
   )
 }
@@ -31,7 +35,7 @@ const Wrap = styled.div`
   justify-content: center;
   align-items: center;
   margin: auto;
-  margin-top: 50px;
+  margin-top: 100px;
   box-shadow: 0px 7px 10px #ccc;
   border-radius: 10px;
 `;
@@ -49,4 +53,14 @@ const Button = styled.button`
   padding: 10px 20px;
   border-radius: 5px;  
   font-weight: 700;
+
+  &:hover {
+    background: #ddd;
+  }
+`;
+
+const Bar = styled.div`
+  position: fixed;
+  top: 150px;
+  left: 0;
 `;
