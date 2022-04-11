@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import {actionCreators as postActions} from '../redux/modules/post';
@@ -6,19 +6,27 @@ import {Grid, Input, Image, Button, Text} from '../elements/index';
 
 function Modal(props){
     const dispatch = useDispatch();
+    const textInput = useRef();
     useEffect(()=>{
         // dispatch(postActions.getPostModalDB());
     },[])
+
     const comment_list = useSelector(state => state)
     let setModal = props.setModal;
     let getModal = props.getModal;
+
+    // 댓글 저장 및 제출하는 버튼
+    const submit = () => {
+        // post id값과 토큰 추가
+        console.log(textInput.current.value)
+    }
     return(
         <>
         <Modalblack>
             <Modalwhite>
-                <button className="close-modal" onClick={()=>setModal(!getModal)}/>X
+                <Button margin='0 0 0 100%' _onClick={()=>setModal(!getModal)}>X</Button>
                 <Grid is_flex>
-                    <Grid flex width='100%' bg='#eee'> 
+                    <Grid flex width='100%'> 
                             <Image shape='rectangle'/>
                         <Grid bg='skyblue'>
                             <Text>hello</Text>
@@ -27,7 +35,7 @@ function Modal(props){
                     <Grid flex>
                         <ContentTop>
                             <Grid padding='20px' width='100%' is_flex>
-                                <div style={{marginLeft:'0%', background:'#eee', borderRadius:'50%'}}>
+                                <div style={{marginLeft:'0%', borderRadius:'50%'}}>
                                     <Image shape='circle' size='50'/>
                                 </div>
                                 <div style={{marginLeft:'-30%'}}>
@@ -41,7 +49,7 @@ function Modal(props){
                         </ContentTop>
                         <ContentBot>
                             {/* 이 부분부터 댓글 반복문 시작 */}
-                            <div style={{height:'400px', background:'red'}}>
+                            <div style={{height:'400px',}}>
                                 <Grid>
                                     <p style={{float:'left'}}>닉네임</p>
                                     <p style={{float:'left'}}>아이디</p>
@@ -49,9 +57,9 @@ function Modal(props){
                             </div>
                             {/* 여기까지 댓글 반복문 */}
                             <div>
-                                <TextArea></TextArea>
+                                <TextArea ref={textInput}></TextArea>
                             </div>
-                            <Button width='100px' margin='5% 0 0 80%'>저장</Button>
+                            <Button width='100px' margin='5% 0 0 80%'_onClick={()=>{submit()}}>저장</Button>
                         </ContentBot>
                     </Grid>
                 </Grid>
@@ -83,7 +91,6 @@ export const ContentTop = styled.div`
 export const ContentBot = styled.div`
     width:100%;
     height:100%;
-    background-color:#eee;
     padding:20px;
 `
 export const TextArea = styled.input`
