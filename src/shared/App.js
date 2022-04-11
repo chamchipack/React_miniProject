@@ -11,6 +11,7 @@ import ChangeNick from "../components/ChangeNick";
 import Header from "../components/Header";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
+import Modal from '../components/Modal';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route exact path="/mypage" component={MyPage} />
         <Route exact path="/mypage/like" component={MyLikeArticle} />
         <Route exact path="/mypage/changenick" component={ChangeNick} />
+        <Route exact path='/modal' component={Modal}/>
       </ConnectedRouter>
     </div>
   );
