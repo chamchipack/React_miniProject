@@ -9,6 +9,7 @@ import MyPage from '../pages/MyPage';
 import MyLikeArticle from '../components/MyLikeArticle';
 import ChangeNick from '../components/ChangeNick';
 import Header from '../components/Header';
+import Modal from '../components/Modal'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Route exact path='/mypage' component={MyPage}/>
       <Route exact path='/mypage/like' component={MyLikeArticle}/>
       <Route exact path='/mypage/changenick' component={ChangeNick}/>
+      <Route exact path='/modal' component={Modal}/>
     </div>
   );
 }

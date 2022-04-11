@@ -49,6 +49,18 @@ const getPostDB = () => {
   }
 }
 
+const getPostModalDB = () => {
+  return function (dispatch, getState){
+    axios.get('...')
+    .then(response => {
+
+    })
+    .catch(error =>{
+      
+    })
+  }
+}
+
 // reducer
 export default handleActions(
   {
@@ -64,7 +76,7 @@ export default handleActions(
 const actionCreators = {
   setPost,
   addPost,
-  addPostDB
+  addPostDB,
 }
 
 export {actionCreators};
