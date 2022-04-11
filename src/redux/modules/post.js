@@ -13,26 +13,27 @@ const initialState = {
 }
 
 
-const addPostDB = (imageFile, text, option) => {
+const addPostDB = (data) => {
   return function(dispatch, getState){
-    axios({
-      method : 'post',
-      url : '...',
-      data : {
-        articleDesc : text,
-        articleThumb : imageFile,
-        articleKind : option,
-      },
-      headers : {
-        Authorization : `sends with token`
-      },
-    })
-    .then(response=>{
-
-    })
-    .catch(error =>{
-      console.log(error)
-    })
+    console.log(data)
+    // axios({
+    //   method : 'post',
+    //   url : 'https://6253cea389f28cf72b52ffe7.mockapi.io',
+    //   data : {
+    //     articleDesc : text,
+    //     articleThumb : imageFile,
+    //     articleKind : option,
+    //   },
+    //   // headers : {
+    //   //   Authorization : `sends with token`
+    //   // },
+    // })
+    // .then(response=>{
+    //   console.log(response)
+    // })
+    // .catch(error =>{
+    //   console.log(error)
+    // })
   }
 }
 

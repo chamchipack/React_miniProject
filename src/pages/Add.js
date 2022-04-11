@@ -40,7 +40,7 @@ function Add(){
             formData.append('text', getInputs.text)
             formData.append('option', getInputs.option)
             for (var pair of formData.entries()){
-                console.log(pair[0]+','+pair[1], pair);
+                console.log(pair);
              }
         }
 
@@ -50,7 +50,7 @@ function Add(){
     
     return(
         <>
-        <Grid width='60%' margin='0 auto' border='3px solid green'>
+        <Grid center width='60%' margin='0 auto' border='3px solid green'>
             <Grid>
                 <Text size='30px' bold='30'>게시물 작성</Text>
             </Grid>
@@ -73,7 +73,7 @@ function Add(){
                 <TextArea name='text' value={text} onChange={onChange} />
             </Grid>
             <Grid margin='5% 0 5% 0'>
-                <Button width='50%' _onClick={submit()}>저장하기</Button>
+                <Button width='50%' _onClick={submit}>저장하기</Button>
             </Grid>
         </Grid>
         </>
