@@ -3,12 +3,12 @@ export const RESP = {
       ok: true,
       result: [
             {
-               articleNum : 1,
-               articleDesc : "글 내용입니다.",
-               articleThumb : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe8JXv0vHQwwYl-eZ8MaU1ePxl6eYWnMKJog&usqp=CAU",
-               articleDate : "2022.04.08.00:00",
-               articleLikeNum : 0,
-               articleCommentNum : 1,
+               articleNum: 1,
+               articleDesc: "글 내용입니다.",
+               articleThumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe8JXv0vHQwwYl-eZ8MaU1ePxl6eYWnMKJog&usqp=CAU",
+               articleDate: "2022.04.08.00:00",
+               articleLikeNum: 0,
+               articleCommentNum: 1,
                userId: "작성자 아이디",
                articleKind: "카테고리"
             },
@@ -23,12 +23,12 @@ export const RESP = {
                articleKind: "카테고리2"
             },
             {
-               articleNum : 1,
-               articleDesc : "글 내용입니다.",
-               articleThumb : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe8JXv0vHQwwYl-eZ8MaU1ePxl6eYWnMKJog&usqp=CAU",
-               articleDate : "2022.04.08.00:00",
-               articleLikeNum : 0,
-               articleCommentNum : 1,
+               articleNum: 1,
+               articleDesc: "글 내용입니다.",
+               articleThumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe8JXv0vHQwwYl-eZ8MaU1ePxl6eYWnMKJog&usqp=CAU",
+               articleDate: "2022.04.08.00:00",
+               articleLikeNum: 0,
+               articleCommentNum: 1,
                userId: "작성자 아이디",
                articleKind: "카테고리"
             },

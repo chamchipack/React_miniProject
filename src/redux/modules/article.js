@@ -48,16 +48,20 @@ const getArticleFB = () => {
   }
 }
 
-const searchFB = () => {
+const searchFB = (category = null, searchWord = null) => {
 
-  return async function (dispatch, getState, { history }) {
-    const articleData = await RESP.Articles.result;
+  return function (dispatch, getState, { history }) {
+    axios.get(`http://3.35.27.190/api/search?articleKind=${category}&articleDesc=${searchWord}`)
+    .then((response)=>{
     let articleList = [];
-    
-    articleData.forEach((article) => {
+    const articles = response.data.articles;
+    articles.forEach((article) => {
       articleList.push({ articleNum: article.articleNum, ...article});
     });
-    console.log(articleList);
+    dispatch(setArticle(articleList));
+    }).catch((error) => {
+      console.log(error);
+    });
   };
 }
 
