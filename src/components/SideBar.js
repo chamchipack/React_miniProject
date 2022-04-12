@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
+
 const SideBar = () => {
 
   const history = useHistory();
@@ -9,6 +10,7 @@ const SideBar = () => {
   return (
     <React.Fragment>
       <Wrap>
+        <div onClick={() => { history.push("/mypage") }}>내가 올린<br/>게시물</div>
         <div onClick={() => { history.push("/mypage/like") }}>좋아요 누른<br/>게시물</div>
         <div onClick={() => { history.push("/mypage/auth") }}>개인정보 수정</div>
       </Wrap>

@@ -41,7 +41,7 @@ function Add(){
             formData.append('option', getInputs.option)
             for (var pair of formData.entries()){
                 console.log(pair);
-             }
+            }
         }
 
     const submit = () => {

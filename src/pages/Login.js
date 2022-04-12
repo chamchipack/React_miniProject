@@ -22,6 +22,7 @@ const Login = () => {
     }
 
     dispatch(userActions.loginDB(id, pw));
+
   };
 
   return (
@@ -31,10 +32,7 @@ const Login = () => {
           <Input
             label="아이디"
             placeholder="아이디를 입력해주세요."
-            _onChange={(e) => {
-              setId(e.target.value);
-            }}
-          />
+            _onChange={(e) => { setId(e.target.value); }}/>
         </Content>
 
         <Content>
@@ -42,21 +40,11 @@ const Login = () => {
             label="비밀번호"
             type="password"
             placeholder="비밀번호를 입력해주세요."
-            _onChange={(e) => {
-              setPw(e.target.value);
-            }}
-          />
+            _onChange={(e) => { setPw(e.target.value); }}/>
         </Content>
 
         <div>
-          <Button
-            onClick={() => {
-              login();
-              history.push("/");
-            }}
-          >
-            로그인
-          </Button>
+          <Button onClick={() => { login(); }}>로그인</Button>
         </div>
       </Wrap>
     </React.Fragment>

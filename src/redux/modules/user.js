@@ -2,7 +2,7 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import axios from "axios";
 
-// import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
+import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
 
 
 // actions
@@ -16,11 +16,8 @@ const setUser = createAction(SET_USER, (user) => ({ user }));
 
 // initialState
 const initialState = {
-  userId: "",
-  userName: "",
-  userPw: "",
-  userPwConfirm: "",
-  userProfile: "",
+  user: null,
+  is_login: false,
 };
 
 // 미들웨어
@@ -28,21 +25,20 @@ const loginDB = (id, pw) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "post",
-      url: "http://3.35.51.235/user/login",
+      url: "http://3.35.27.190/user/login",
       data: {
         userId: id,
         userPw: pw,
       }
     }).then( res => {
-      console.log(res.data.logInToken);
-      const accessToken = res.data.logInToken;
-      console.log(res);
-      dispatch(setUser({
-        userId: id,
-      }))
-      setCookie("is_login", id, accessToken)
+      const token = res.data.logInToken;
+      setCookie("is_login", token);
+      sessionStorage.setItem("token", token)
+      
+      dispatch(setUser());
+      history.push("/");
     }).catch( err => {
-      console.log(err);
+      window.alert("로그인 실패!");
     })
     
   
@@ -54,7 +50,7 @@ const signUpDB = (id, name, pw) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "post",
-      url: "http://3.35.51.235/user/signUp",
+      url: "http://3.35.27.190/user/signUp",
       data: {
         userId: id,
         userName: name,
@@ -62,9 +58,9 @@ const signUpDB = (id, name, pw) => {
       },
     }).then(response => {
       console.log(response);
-      
+      history.push("/login");
     }).catch(error => {
-
+      window.alert(error);
     })
   };  
 };
@@ -72,28 +68,48 @@ const signUpDB = (id, name, pw) => {
 // (로그아웃)
 const logOutDB = () => {
   return function (dispatch, getState) {
-    const id = getState().user.user.userId;
-    console.log(id);
-    dispatch(logOut(id));
+    dispatch(logOut());
+    sessionStorage.removeItem("token");
+    deleteCookie("is_login");
   };
 };
+
+// 개인정보 수정시 비밀번호 체크
+const checkPwDB = (pw) => {
+  const cookie = getCookie("is_login");
+  console.log(cookie);
+  return function (dispatch, getState, { history }) {
+    axios({
+      method: "post",
+      url: "http://3.35.27.190/api/pwCheck",
+      data: {
+        userPw: pw,
+      },
+      headers: {
+        Authorization: `Bearer${cookie}`
+      }
+    }).then( res => {
+      console.log(res);
+      history.push("/mypage/changenick");
+    }).catch( err => {
+      console.log(err);
+    })
+  }
+}
 
 // reducer
 export default handleActions(
   {
     // 로그인시 받을 데이터
     [SET_USER]: (state, action) => 
-      produce(state, (draft) => {
-        draft.user = action.payload.user;
-        draft.is_login = true;
-      }),
+      produce(state, (draft) => {          
+        draft.is_login = true;      // draft는 state다. state 값을 바꾼다. 리덕스에 저장
+    }),
     [LOG_OUT]: (state, action) =>
       produce(state, (draft) => {
-        deleteCookie("is_login");
-        sessionStorage.removeItem(action.payload.user);
-        
+        draft.user = null;
         draft.is_login = false;
-        console.log(action.payload);
+        // console.log(action.payload);    // {user: test}
       }),
   },
   initialState
@@ -106,7 +122,7 @@ const actionCreators = {
   setUser,
   loginDB,
   logOutDB,
-
+  checkPwDB,
 };
 
 export { actionCreators };
