@@ -22,7 +22,7 @@ Button.defaultProps = {
   children: null,
   _onClick: () => {},
   margin: false,
-  width: false,
+  width: '',
   padding: false,
 };
 

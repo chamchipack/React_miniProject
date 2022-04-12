@@ -4,9 +4,11 @@ import axios from "axios";
 
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
+const SET_MODAL = "SET_MODAL";
 
 const setPost = createAction(SET_POST, (post_list) => ({post_list}));
 const addPost = createAction(ADD_POST, (post) => ({post}));
+const setModal = createAction(SET_MODAL, (data_list)=>({data_list}));
 
 const initialState = {
   list: [],
@@ -50,14 +52,21 @@ const getPostDB = () => {
   }
 }
 
-const getPostModalDB = () => {
+const getPostModalDB = (articleNum) => {
   return function (dispatch, getState){
-    axios.get('...')
+    axios({
+      method : 'get',
+      url : "http://3.35.27.190/api/modal",
+      data : {
+        articleNum : articleNum
+      }
+    })
     .then(response => {
-
+      const post_list = response.data.comments
+      dispatch(setPost(post_list));
     })
     .catch(error =>{
-      
+      console.log('Modal middleware error')
     })
   }
 }
@@ -71,6 +80,10 @@ export default handleActions(
     [ADD_POST]: (state, action) => produce(state, (draft) => {
       draft.list.unshift(action.payload.post);
     }),
+    [SET_MODAL] : (state, action) => produce(state, (draft) => {
+      console.log(draft)
+      draft.list = action.payload.comment
+    })
   }, initialState
 );
 
@@ -78,6 +91,8 @@ const actionCreators = {
   setPost,
   addPost,
   addPostDB,
+  getPostModalDB,
+  setModal,
 }
 
 export {actionCreators};

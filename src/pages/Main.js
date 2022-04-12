@@ -5,25 +5,19 @@ import Article from "../components/Article";
 import { BsPatchPlus } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as articleActions } from "../redux/modules/article";
-import Modal from '../components/Modal';
+
 
 const Main = (props) => {
   const { history } = props;
   const dispatch = useDispatch();
   const articleList = useSelector((state) => state.article.list);
-  const [getModal, setModal] = useState(false);
-  console.log(articleList);
+  
   React.useEffect(() => {
     dispatch(articleActions.getArticleFB());
   }, []);
-  console.log(getModal)
   return (
     <>
-    {
-      getModal == true
-      ? <Modal getModal={getModal} setModal={setModal}/>
-      : null
-    }
+    
       <img className="bgImage" src="main.png" />
       <img className="bgImage" src="main.png" />
       <BsPatchPlus
@@ -35,7 +29,7 @@ const Main = (props) => {
       />
       <ArticleList>
         {articleList.map((a, idx) => {
-          return <Article setModal={setModal} key={a.articleNum} {...a} />;
+          return <Article key={a.articleNum} {...a} />;
         })}
         <Article />
       </ArticleList>
