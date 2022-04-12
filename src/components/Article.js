@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Image, Text, Button } from "../elements";
+import Modal from '../components/Modal';
+import { useSelector } from "react-redux";
 
 const Article = (props) => {
-console.log(props.userInfo);
+  const [getModal, setModal] = useState(false);
   return (
-    <ArticleBox>
+    <>
+    {
+      getModal == true
+      ? <Modal articleNum={props.articleNum} data={props} getModal={getModal} setModal={setModal}/>
+      : null
+    }
+    <ArticleBox onClick={()=>{setModal(true)}}>
       <Image shape="rectangle" src={`http://3.35.27.190${props.articleThumb}`}></Image>
       <div style={{display: "flex", alignItems: "center"}}>
         <Image shape="circle" src={props.articleThumb} />
@@ -21,7 +29,8 @@ console.log(props.userInfo);
           <Text margin="0 10px 0 0" bold>좋아요 {props.articleLikeNum}</Text>
           <Text margin="0px" bold>댓글 {props.articleCommentNum}개</Text>
         </div>
-        </ArticleBox>
+    </ArticleBox>
+    </>
   );
 };
 

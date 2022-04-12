@@ -4,60 +4,78 @@ import axios from "axios";
 
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
+const SET_MODAL = "SET_MODAL";
+const SET_LIKED = "SET_LIKED"
 
 const setPost = createAction(SET_POST, (post_list) => ({post_list}));
 const addPost = createAction(ADD_POST, (post) => ({post}));
+const setModal = createAction(SET_MODAL, (data_list)=>({data_list}));
+const setLiked = createAction(SET_LIKED, (liked)=> ({liked}));
+
 
 const initialState = {
   list: [],
 }
 
 
-const addPostDB = (data) => {
+const addPostDB = (formData, token) => {
   return function(dispatch, getState){
-    console.log(data)
-    // axios({
-    //   method : 'post',
-    //   url : 'https://6253cea389f28cf72b52ffe7.mockapi.io',
-    //   data : {
-    //     articleDesc : text,
-    //     articleThumb : imageFile,
-    //     articleKind : option,
-    //   },
-    //   // headers : {
-    //   //   Authorization : `sends with token`
-    //   // },
-    // })
-    // .then(response=>{
-    //   console.log(response)
-    // })
-    // .catch(error =>{
-    //   console.log(error)
-    // })
-  }
-}
-
-
-const getPostDB = () => {
-  return function (dispatch, getState){
-    axios.get('...')
-    .then(response => {
-
+    axios({
+      method : 'post',
+      url : 'http://3.35.27.190/api/articlePost',
+      data : formData,
+      headers : {
+        Authorization : `Bearer${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then(response=>{
+      console.log(response)
     })
     .catch(error =>{
-      
+      console.log(error)
     })
   }
 }
 
-const getPostModalDB = () => {
-  return function (dispatch, getState){
-    axios.get('...')
-    .then(response => {
+const clickLikeDB = (articleNum, like, token) => {
+  return function(dispatch){
+    console.log(articleNum, like, token)
+    axios({
+      method : 'post',
+      url : 'http://3.35.27.190/api/like',
+      data : {
+        articleNum : articleNum,
+        like : like,
+      },
+      headers : {
+        Authorization : `Bearer${token}`,
+      }
+    })
+    .then(response =>{
+      console.log(response)
+      dispatch(setLiked(!like))
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+}
 
+
+const getPostModalDB = (articleNum) => {
+  return function (dispatch, getState){
+    axios({
+      method : 'get',
+      url : `http://3.35.27.190/api/modal?articleNum=${articleNum}`,
+    })
+    .then(response => {
+      const post_list = response.data.comments
+      console.log(post_list)
+      dispatch(setPost(post_list));
     })
     .catch(error =>{
-      
+      console.log('Modal middleware error')
     })
   }
 }
@@ -71,6 +89,14 @@ export default handleActions(
     [ADD_POST]: (state, action) => produce(state, (draft) => {
       draft.list.unshift(action.payload.post);
     }),
+    [SET_MODAL] : (state, action) => produce(state, (draft) => {
+      console.log(draft)
+      draft.list = action.payload.comment
+    }),
+    [SET_LIKED] : (state, action) => produce(state, (draft) => {
+      console.log(action)
+      // draft.list = action.payload
+    })
   }, initialState
 );
 
@@ -78,6 +104,10 @@ const actionCreators = {
   setPost,
   addPost,
   addPostDB,
+  getPostModalDB,
+  setModal,
+  clickLikeDB,
+  setLiked,
 }
 
 export {actionCreators};
