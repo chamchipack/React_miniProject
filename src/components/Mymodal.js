@@ -1,49 +1,47 @@
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import styled from 'styled-components';
 import {actionCreators as postActions} from '../redux/modules/post';
 import {actionCreators as commentActions} from '../redux/modules/comment';
 import {Grid, Input, Image, Button, Text} from '../elements/index';
 import {FaHeart} from 'react-icons/fa'
-import {getCookie} from '../shared/Cookie';
 
-function Modal(props){
-    const dispatch = useDispatch();
-    const textInput = useRef();
-    const comment_list = useSelector(state => state.post.list)
-    useEffect(()=>{
-        dispatch(postActions.getPostModalDB(props.articleNum));
-    },[])
-    console.log(comment_list)
-    const post = props.data
-    let setModal = props.setModal;
-    let getModal = props.getModal;
-    let liked = false;
-
-    const cookie = getCookie("is_login");
-    const submit = () => {
-        // post id값과 토큰 추가
-        dispatch(commentActions.addCommentDB(cookie, post.articleNum, textInput.current.value))
-    }
-
-    const likeClick = () => {
-        liked = !liked
-        console.log(liked)
-        dispatch(postActions.clickLikeDB(post.articleNum, liked, cookie))
-    }
-    
+function Mymodal(props){
+    let array = [1,2,3];
+    const [update, setUpdate] = useState(false);
     return(
         <>
         <Modalblack>
             <Modalwhite>
-                <Button margin='0 0 0 100%' _onClick={()=>setModal(!getModal)}>X</Button>
+                {
+                    update == true
+                    ?
+                <div style={{marginTop:'-20px'}}>
+                    <input accept='image/*' type='file' />
+                        <select>
+                            <option>CATEGORY</option>
+                            <option>음악</option>
+                            <option>운동</option>
+                            <option>게임</option>
+                            <option>뭐냐</option>
+                        </select>
+                </div>
+                : null
+                }
+                <div style={{float:'right'}}><Button width='50px' margin='0 0 0 40%'>X</Button></div>
+                <div style={{float:'right'}}><Button width='50px' margin='0 0 0 30%'>삭제</Button></div>
+                <div style={{float:'right'}}><Button _onClick={()=>{setUpdate(!update)}} width='50px' margin='0 0 0 20%'>수정</Button></div>
                 <Grid is_flex>
                     <Grid flex width='100%'> 
-                            <Image shape='rectangle' src={`http://3.35.27.190${post.articleThumb}`}/>
+                            <Image shape='rectangle' src={'...'}/>
                         <Grid >
-                            <Text>{post.articleDesc}</Text>
-                            <FaHeart onClick={()=>{likeClick()}} style={{position:'absolute', right:'10',
-                             bottom:'10', fontSize:'50px', color:liked==false ?'gray' : 'red'}}/>
+                            
+                            {
+                                update == true
+                                ? <TextArea></TextArea>
+                                : <Text>이거 글씨 써져있는거</Text>
+                            }
+                            <FaHeart style={{position:'absolute', right:'10',
+                             bottom:'10', fontSize:'50px', }}/>
                         </Grid>
                     </Grid>
                     <Grid flex>
@@ -53,34 +51,31 @@ function Modal(props){
                                     <Image shape='circle' size='50'/>
                                 </div>
                                 <div style={{marginLeft:'-30%'}}>
-                                    <Text size='20px'>{post.userInfo.userName}</Text>
+                                    <Text size='20px'>닉네임</Text>
                                 </div>
                                 <Grid width='40%'>
-                                    <Text>{post.articleDate}</Text>
-                                    <Text>댓글 {post.articleCommentNum}개 좋아요 {post.articleLikeNum}개</Text>
+                                    <Text>2022.03.05</Text>
+                                    <Text>댓글 0개 좋아요 0개</Text>
                                 </Grid>
                             </Grid>
                         </ContentTop>
                         <ContentBot>
                             {/* 이 부분부터 댓글 반복문 시작 */}
-                            <div style={{height:'350px', background:'#eee'}}>
+                            <div style={{height:'450px', background:'#eee'}}>
                             {
-                                comment_list.map((element,i)=>{
+                                array.map((element,i)=>{
                                     return(
                                             <div style={{display:'flex'}}>
-                                                <span style={{}}>{element.userName}</span>
-                                                <span style={{marginLeft:'10px'}}>{element.contents}</span>
+                                                <span style={{}}>작성자 닉네임</span>
+                                                <span style={{marginLeft:'10px'}}>댓글</span>
                                             </div>
                                     )
                                 })
                             }
                             </div>
                             {/* 여기까지 댓글 반복문 */}
-                            <div>
-                                <TextArea ref={textInput}></TextArea>
-                            </div>
                             
-                            <Button width='100px' margin='5% 0 0 80%'_onClick={()=>{submit()}}>저장</Button>
+                            <Button width='100px' margin='5% 0 0 80%'>저장</Button>
                         </ContentBot>
                     </Grid>
                 </Grid>
@@ -126,4 +121,4 @@ export const TextArea = styled.input`
     padding: 10px;
     font-size : 20px;
 `
-export default Modal
+export default Mymodal
