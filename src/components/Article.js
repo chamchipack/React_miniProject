@@ -5,7 +5,7 @@ import { Image, Text, Button } from "../elements";
 const Article = (props) => {
 
   return (
-    <ArticleBox>
+    <ArticleBox onClick={()=>{props.setModal(true)}}>
       <Image shape="rectangle" src={props.articleThumb}></Image>
       <div style={{display: "flex", alignItems: "center"}}>
         <Image shape="circle" src={props.articleThumb} />

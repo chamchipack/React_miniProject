@@ -2,7 +2,7 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import axios from "axios";
 
-// import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
+import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
 
 
 // actions
@@ -28,7 +28,7 @@ const loginDB = (id, pw) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "post",
-      url: "http://3.35.51.235/user/login",
+      url: "http://3.35.27.190/user/login",
       data: {
         userId: id,
         userPw: pw,
@@ -54,7 +54,7 @@ const signUpDB = (id, name, pw) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "post",
-      url: "http://3.35.51.235/user/signUp",
+      url: "http://3.35.27.190/user/signUp",
       data: {
         userId: id,
         userName: name,

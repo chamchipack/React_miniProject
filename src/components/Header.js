@@ -155,9 +155,8 @@ const Header = (props) => {
             backgroundColor: "#f7f7f7",
           }}
           type="text"
-          ref={searchRef}
         />
-        <FiSearch size={30} onClick={searchClick}/>
+        <FiSearch size={30}/>
       </div>
       <div
         style={{

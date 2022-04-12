@@ -34,7 +34,7 @@ const initialArticle = {
 const getArticleFB = () => {
 
   return function (dispatch, getState, { history }) {
-    axios.get("http://3.35.51.235/api/main")
+    axios.get("http://3.35.27.190/api/main")
     .then((response)=>{
     let articleList = [];
     const articles = response.data.articles;
