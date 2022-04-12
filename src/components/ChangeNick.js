@@ -1,21 +1,44 @@
 import React from "react";
+import { useRef, useState } from 'react';
+import {actionCreators as imageActions} from '../redux/modules/image';
+import {actionCreators as postActions} from '../redux/modules/post';
 import styled from "styled-components";
+import { useDispatch, useSelector } from 'react-redux';
+
 import Input from "../elements/Input";
 import SideBar from "./SideBar";
 
 const ChangeNick = () => {
+  const dispatch = useDispatch();
+  const preview = useSelector(state => state.image.preview);
+  const fileInput = useRef(null);
+
+  const changePreview = (e) => {
+    const reader = new FileReader();
+    const file = fileInput.current.files[0]
+    reader.readAsDataURL(file)
+    reader.onloadend = () =>{
+        dispatch(imageActions.uploadImageDB(reader.result))
+    }
+  }
+
+  const submit = () => {
+    
+}
 
   return (
     <React.Fragment>
       <Wrap>
         <Content>
-          <Input label="닉네임 변경" placeholder="변경할 닉네임을 입력해주세요."/>
+          <img style={{borderRadius:'50%', width:'150px', margin:'10px'}} src={preview? preview : "https://www.morepowerfulnc.org/wp-content/uploads/2018/10/300x300-1.png"}/>
+          <input accept='image/*' type='file' ref={fileInput} onChange={changePreview} />
         </Content>
 
-        <div>
+        <Content>
+          <Input label="닉네임 변경" placeholder="변경할 닉네임을 입력해주세요."/>
           {/* 기존 닉네임 받아온 후에 입력한 값과 같은지 확인하는 함수 넣기 */}
-          <Button onClick={() => {}}>변경</Button>
-        </div>
+          <Button _onClick={submit}>변경</Button>
+        </Content>
       </Wrap>
       <Bar>
         <SideBar/>

@@ -32,22 +32,6 @@ const SignUp = () => {
   }
 
 
-  // 아이디 중복확인
-  const checkId = () => {
-    if (id === "") {
-      window.alert("공란입니다!");
-      return;
-    } else if (!is_id(id)) {
-      window.alert("4-12자 이내 대문자, 소문자 영어와 숫자만 가능!")
-      return;
-    } else {
-      window.alert("사용 가능한 아이디입니다!")
-    }
-    
-    console.log("중복요청 dispatch실행!")
-  }
-
-
   // 회원가입
   const signup = () => {
     if (id === "" || name === "" || pw === "" || checkPw === "") {
@@ -59,16 +43,16 @@ const SignUp = () => {
       return;
     }
     if (!is_pw(pw)) {
-      window.alert("비밀번호 형식이 맞지 않습니다!");
+      window.alert("8-20자 내외 영어,숫자 필수 포함, 특수문자(!@#$%^&*)사용가능!");
       return;
     }
     if (pw !== checkPw) {
       window.alert("비밀번호가 다릅니다!");
       return;
     }
-  
+    window.alert("회원가입 완료!")
+    
     dispatch(userActions.signUpDB(id, name, pw));
-
   }
 
 

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import {Grid, Input, Text, Button} from '../elements/index';
 import {actionCreators as imageActions} from '../redux/modules/image';
 import {actionCreators as postActions} from '../redux/modules/post';
+import {getCookie} from '../shared/Cookie';
 
 function Add(){
     const dispatch = useDispatch();
@@ -14,6 +15,7 @@ function Add(){
         text : '',
         option : '',
     });
+    const cookie = getCookie("is_login");
     
     const changePreview = (e) => {
         const reader = new FileReader();
@@ -33,19 +35,19 @@ function Add(){
             [name]: value
         })
     }
-    
+    console.log(fileInput.current)
     const formData = new FormData();
         if(fileInput.current){
-            formData.append('image', fileInput.current.files[0])
-            formData.append('text', getInputs.text)
-            formData.append('option', getInputs.option)
-            for (var pair of formData.entries()){
-                console.log(pair);
-             }
+            formData.append('articleThumb', fileInput.current.files[0])
+            formData.append('articleDesc', getInputs.text)
+            formData.append('articleKind', getInputs.option)
+            // for (var pair of formData.entries()){
+            //     console.log(pair);
+            //  }
         }
 
     const submit = () => {
-        dispatch(postActions.addPostDB(formData))
+        dispatch(postActions.addPostDB(formData, cookie))
     }
     
     return(
@@ -56,11 +58,11 @@ function Add(){
             </Grid>
             <Grid width='50%' margin='-10% 5% -13%'>
                 <Select name='option' value={option} onChange={onChange}>
-                    <option>1번옵션</option>
-                    <option>2번옵션</option>
-                    <option>3번옵션</option>
-                    <option>4번옵션</option>
-                    <option>5번옵션</option>
+                    <option>category</option>
+                    <option>운동</option>
+                    <option>음악</option>
+                    <option>영화</option>
+                    <option>게임</option>
                 </Select>
             </Grid>
             <Grid margin='10% 0 0 0'>

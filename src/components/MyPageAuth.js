@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Route } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { actionCreators, actionCreators as userActions } from "../redux/modules/user";
 
 import Input from "../elements/Input";
 import SideBar from "./SideBar";
@@ -9,13 +11,22 @@ import SideBar from "./SideBar";
 
 const MyPageAuth = () => {
 
+  const [pw , setPw] = React.useState("");
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const checkPw = () => {
+    dispatch(userActions.checkPwDB(pw));
+  }
 
   return (
     <React.Fragment>
       <Wrap>
         <Content>
-          <Input label="비밀번호 확인" placeholder="비밀번호를 입력해주세요."/>
+          <Input label="비밀번호 확인" placeholder="비밀번호를 입력해주세요."
+            _onChange={(e) => { 
+              setPw(e.target.value);
+          }}/>
         </Content>      
 
         <div>
@@ -24,8 +35,7 @@ const MyPageAuth = () => {
           {/* 유효시간을 줘야하나? 잘못 눌렀을시에 매번 입력할수는 없으니까 */}
           {/* 일단 조건 없이 페이지 이동 걸어놓음 */}
           <Button onClick={() => {
-
-            history.push("/mypage/changenick");
+            checkPw();
           }}>확인</Button>
         </div>
       </Wrap>

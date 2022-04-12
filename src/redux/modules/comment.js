@@ -10,22 +10,21 @@ const initialState = {
   list: [],
 }
 
-const addCommentDB = (imageFile, text, option) => {
+const addCommentDB = (token, articleNum, text) => {
     return function(dispatch, getState){
       axios({
         method : 'post',
-        url : '...',
+        url : 'http://3.35.27.190/api/commentPost',
         data : {
-          articleDesc : text,
-          articleThumb : imageFile,
-          articleKind : option,
+          articleNum : articleNum,
+          contents : text,
         },
         headers : {
-          Authorization : `sends with token`
+          Authorization : `Bearer${token}`
         },
       })
       .then(response=>{
-  
+        console.log(response)
       })
       .catch(error =>{
         console.log(error)
