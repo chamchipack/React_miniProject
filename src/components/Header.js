@@ -1,25 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 import { FiSearch } from "react-icons/fi";
-import { Button, Input, Text } from "../elements";
+import { Button } from "../elements";
 import { history } from "../redux/configureStore";
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { actionCreators as searchActions } from "../redux/modules/article";
-import { getCookie } from "../shared/Cookie";
 
 const Header = (props) => {
-  const [session, setSession] = React.useState(false);
-  React.useEffect(() => {
-    const token = getCookie("is_login");
-    setSession(!!token ? true : false);
-  }, []);
-  console.log(session); // useEffect안에서 false가 뜨는이유?
-
+  
   const is_login = useSelector((state) => state.user.is_login);
-
-  // 토큰을 받아왔어도 헤더는 받아오기전상태를 유지하기 떄문에 undefined
+  const is_session = sessionStorage.getItem("token")? true : false;
+  console.log("is_login: "+is_login, "is_session: "+is_session);
 
   const dispatch = useDispatch();
   const options = [
@@ -45,29 +38,22 @@ const Header = (props) => {
 
   return (
     <HeaderDiv>
-      <p
-        onClick={() => {
-          history.push("/");
-        }}
+      <p onClick={() => { history.push("/"); }}
         style={{
           fontFamily: "Quicksand",
           fontSize: "30px",
           fontWeight: "bold",
           marginLeft: "20px",
-        }}
-      >
+        }}>
         What do you do FOR FUN?
       </p>
-      <div
-        style={{
+      <div style={{
           marginLeft: "-200px",
           height: "50px",
           display: "flex",
           alignItems: "center",
-        }}
-      >
-        <select
-          style={{
+        }}>
+        <select style={{
             width: "100px",
             height: "30px",
             border: "none",
@@ -85,8 +71,7 @@ const Header = (props) => {
             </option>
           ))}
         </select>
-        <input
-          style={{
+        <input style={{
             height: "40px",
             border: "none",
             borderBottom: "2px solid #ffb72b",
@@ -97,30 +82,23 @@ const Header = (props) => {
         />
         <FiSearch size={30} onClick={searchClick} />
       </div>
-      {session && is_login ? (
+      {is_session && is_login ? (
         <div
         style={{
           display: "flex",
           alignItems: "center",
           width: "200px",
           gap: "20px",
-        }}
-      >
+        }}>
         <Button
-          width="80px"
-          _onClick={() => {
-            history.push("/mypage");
-          }}
-        >
+          width="80px" _onClick={() => {
+            history.push("/mypage");}}>
           mypage
         </Button>
-        <Button
-          width="80px"
-          _onClick={() => {
+        <Button width="80px" _onClick={() => {
             dispatch(userActions.logOutDB());
             history.push("/");
-          }}
-        >
+          }}>
           logout
         </Button>
       </div>
