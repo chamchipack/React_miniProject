@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { Image, Text, Button } from "../elements";
 
 const Article = (props) => {
-
+console.log(props.userInfo);
   return (
     <ArticleBox>
-      <Image shape="rectangle" src={props.articleThumb}></Image>
+      <Image shape="rectangle" src={`http://3.35.27.190${props.articleThumb}`}></Image>
       <div style={{display: "flex", alignItems: "center"}}>
         <Image shape="circle" src={props.articleThumb} />
         <Text bold margin="10px">
@@ -28,7 +28,7 @@ const Article = (props) => {
 Article.defaultProps = {
   articleNum: 1,
   articleDesc: "글 내용입니다.",
-  articleThumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe8JXv0vHQwwYl-eZ8MaU1ePxl6eYWnMKJog&usqp=CAU",
+  articleThumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz1kNtBWZSEJq1jOPau6-ObyyXqdkmoh0DdA&usqp=CAU",
   articleDate: "2022.04.08.00:00",
   articleLikeNum: 0,
   articleCommentNum: 1,

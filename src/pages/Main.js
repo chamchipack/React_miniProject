@@ -10,7 +10,7 @@ const Main = (props) => {
   const { history } = props;
   const dispatch = useDispatch();
   const articleList = useSelector((state) => state.article.list);
-  console.log(articleList);
+
   React.useEffect(() => {
     dispatch(articleActions.getArticleFB());
   }, []);
@@ -30,7 +30,6 @@ const Main = (props) => {
         {articleList.map((a, idx) => {
           return <Article key={a.articleNum} {...a} />;
         })}
-        <Article />
       </ArticleList>
     </>
   );
