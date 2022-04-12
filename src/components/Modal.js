@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import {actionCreators as postActions} from '../redux/modules/post';
+import {actionCreators as commentActions} from '../redux/modules/comment';
 import {Grid, Input, Image, Button, Text} from '../elements/index';
 import {FaHeart} from 'react-icons/fa'
+import {getCookie} from '../shared/Cookie';
 
 function Modal(props){
     const dispatch = useDispatch();
@@ -15,12 +17,20 @@ function Modal(props){
     const post = props.data
     let setModal = props.setModal;
     let getModal = props.getModal;
-    console.log(comment_list)
-    // 댓글 저장 및 제출하는 버튼
+    let liked = false;
+
+    const cookie = getCookie("is_login");
     const submit = () => {
         // post id값과 토큰 추가
-        console.log(textInput.current.value)
+        dispatch(commentActions.addCommentDB(cookie, post.articleNum, textInput.current.value))
     }
+
+    const likeClick = () => {
+        liked = !liked
+        console.log(liked)
+        dispatch(postActions.clickLikeDB(post.articleNum, liked, cookie))
+    }
+
     return(
         <>
         <Modalblack>
@@ -31,7 +41,8 @@ function Modal(props){
                             <Image shape='rectangle' src={`http://3.35.27.190${post.articleThumb}`}/>
                         <Grid >
                             <Text>{post.articleDesc}</Text>
-                            <FaHeart style={{position:'absolute', right:'10', bottom:'10', fontSize:'50px', color:'red'}}/>
+                            <FaHeart onClick={()=>{likeClick()}} style={{position:'absolute', right:'10',
+                             bottom:'10', fontSize:'50px', color:liked==false ?'gray' : 'red'}}/>
                         </Grid>
                     </Grid>
                     <Grid flex>
