@@ -14,7 +14,9 @@ function Modal(props){
     useEffect(()=>{
         dispatch(postActions.getPostModalDB(props.articleNum));
     },[])
+    console.log(comment_list)
     const post = props.data
+    const [update, setUpdate] = useState(false);
     let setModal = props.setModal;
     let getModal = props.getModal;
     let liked = false;
@@ -30,17 +32,43 @@ function Modal(props){
         console.log(liked)
         dispatch(postActions.clickLikeDB(post.articleNum, liked, cookie))
     }
-
+    
     return(
         <>
         <Modalblack>
             <Modalwhite>
-                <Button margin='0 0 0 100%' _onClick={()=>setModal(!getModal)}>X</Button>
+                {
+                    update == true
+                    ?
+                <div style={{marginTop:'-20px'}}>
+                    <input accept='image/*' type='file' />
+                        <select>
+                            <option>CATEGORY</option>
+                            <option>음악</option>
+                            <option>운동</option>
+                            <option>게임</option>
+                            <option>뭐냐</option>
+                        </select>
+                </div>
+                : null
+                }
+                <div style={{float:'right'}}><Button _onClick={()=>{setModal(!getModal)}} width='50px' margin='0 0 0 40%'>X</Button></div>
+                <div style={{float:'right'}}><Button width='50px' margin='0 0 0 30%'>삭제</Button></div>
+                {
+                    update == true
+                    ?<div style={{float:'right'}}><Button _onClick={()=>{setUpdate(!update)}} width='100px' margin='0 0 0 10%'>수정저장</Button></div>
+                    :<div style={{float:'right'}}><Button _onClick={()=>{setUpdate(!update)}} width='50px' margin='0 0 0 20%'>수정</Button></div>
+                }
+                
                 <Grid is_flex>
                     <Grid flex width='100%'> 
                             <Image shape='rectangle' src={`http://3.35.27.190${post.articleThumb}`}/>
                         <Grid >
-                            <Text>{post.articleDesc}</Text>
+                            {
+                                update == true
+                                ? <TextArea></TextArea>
+                                : <Text>{post.articleDesc}</Text>
+                            }
                             <FaHeart onClick={()=>{likeClick()}} style={{position:'absolute', right:'10',
                              bottom:'10', fontSize:'50px', color:liked==false ?'gray' : 'red'}}/>
                         </Grid>
