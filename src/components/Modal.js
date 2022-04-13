@@ -235,7 +235,7 @@ function Modal(props) {
       </Modalblack>
     </>
   );
-}
+} 
 
 export const Modalblack = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
