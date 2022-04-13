@@ -13,7 +13,7 @@ function Modal(props){
     const textInput = useRef();
     const comment_list = useSelector(state => state.comment.list)
     const like_list = useSelector(state => state.post.list)
-    const what = useSelector(state => state.user);
+    const what = useSelector(state => state.article.list);
    
     const parseToken = (token) => {
         try {
@@ -35,9 +35,6 @@ function Modal(props){
         dispatch(commentActions.getCommentDB(props.articleNum));
         dispatch(postActions.getLikeDB(props.articleNum));
     },[])
-    
-    console.log(checked)
-    
 
     const post = props.data
     const [update, setUpdate] = useState(false);
@@ -46,23 +43,18 @@ function Modal(props){
     let liked = true;
     
     const submit = () => {
-        // post id값과 토큰 추가
         dispatch(commentActions.addCommentDB(cookie, post.articleNum, textInput.current.value))
     }
 
     const likeClick = () => {
         if(checked == true){
             liked = checked
-            console.log(liked)
         } else {
             liked = false
-            console.log(liked)
         }
-        
-        // dispatch(postActions.clickLikeDB(post.articleNum, liked, cookie))
+        dispatch(postActions.clickLikeDB(post.articleNum, liked, cookie))
     }
-    console.log()
-    
+    console.log(post.userId, current_id.userId)
     
     return(
         <>
@@ -84,7 +76,13 @@ function Modal(props){
                 : null
                 }
                 <div style={{float:'right'}}><Button _onClick={()=>{setModal(!getModal)}} width='50px' margin='0 0 0 40%'>X</Button></div>
-                <div style={{float:'right'}}><Button width='50px' margin='0 0 0 30%'>삭제</Button></div>
+
+                {
+                    post.userId == current_id.userId
+                    ? <div style={{float:'right'}}><Button width='50px' margin='0 0 0 30%'>삭제</Button></div>
+                    : null
+                }
+                
                 {
                     update == true
                     ?<div style={{float:'right'}}><Button _onClick={()=>{setUpdate(!update)}} width='100px' margin='0 0 0 10%'>수정저장</Button></div>
