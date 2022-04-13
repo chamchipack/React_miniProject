@@ -9,31 +9,60 @@ import {getCookie} from '../shared/Cookie';
 
 function Modal(props){
     const dispatch = useDispatch();
+    const cookie = getCookie("is_login");
     const textInput = useRef();
-    const comment_list = useSelector(state => state.post.list)
-    const like_list = useSelector(state => state)
+    const comment_list = useSelector(state => state.comment.list)
+    const like_list = useSelector(state => state.post.list)
+    const what = useSelector(state => state.user);
+   
+    const parseToken = (token) => {
+        try {
+            return JSON.parse(atob(token.split('.')[1]));
+          } catch (e) {
+            return null;
+          }
+    }
+    const current_id = parseToken(cookie);
+
+    const judged = (list, id) => {
+        if(list.includes(id)){
+            return true
+        } 
+    }
+    const checked = judged(like_list, current_id.userId);
+
     useEffect(()=>{
-        dispatch(postActions.getPostModalDB(props.articleNum));
+        dispatch(commentActions.getCommentDB(props.articleNum));
+        dispatch(postActions.getLikeDB(props.articleNum));
     },[])
-    console.log(comment_list)
-    console.log(like_list)
+    
+    console.log(checked)
+    
+
     const post = props.data
     const [update, setUpdate] = useState(false);
     let setModal = props.setModal;
     let getModal = props.getModal;
-    let liked = false;
+    let liked = true;
     
-    const cookie = getCookie("is_login");
     const submit = () => {
         // post id값과 토큰 추가
         dispatch(commentActions.addCommentDB(cookie, post.articleNum, textInput.current.value))
     }
 
     const likeClick = () => {
-        liked = !liked
-        console.log(liked)
-        dispatch(postActions.clickLikeDB(post.articleNum, liked, cookie))
+        if(checked == true){
+            liked = checked
+            console.log(liked)
+        } else {
+            liked = false
+            console.log(liked)
+        }
+        
+        // dispatch(postActions.clickLikeDB(post.articleNum, liked, cookie))
     }
+    console.log()
+    
     
     return(
         <>
@@ -72,14 +101,14 @@ function Modal(props){
                                 : <Text>{post.articleDesc}</Text>
                             }
                             <FaHeart onClick={()=>{likeClick()}} style={{position:'absolute', right:'10',
-                             bottom:'10', fontSize:'50px', color:liked==false ?'gray' : 'red'}}/>
+                             bottom:'10', fontSize:'50px', color:checked==true ?'red' : 'gray'}}/>
                         </Grid>
                     </Grid>
                     <Grid flex>
                         <ContentTop>
                             <Grid padding='20px' width='100%' is_flex>
                                 <div style={{marginLeft:'0%', borderRadius:'50%'}}>
-                                    <Image shape='circle' size='50'/>
+                                    <Image shape='circle' src={post.userInfo.userProfile} size='50'/>
                                 </div>
                                 <div style={{marginLeft:'-30%'}}>
                                     <Text size='20px'>{post.userInfo.userName}</Text>
@@ -94,7 +123,7 @@ function Modal(props){
                             {/* 이 부분부터 댓글 반복문 시작 */}
                             <div style={{height:'350px', background:'#eee'}}>
                             {
-                                comment_list.map((element,i)=>{
+                                comment_list.map((element)=>{
                                     return(
                                             <div style={{display:'flex'}}>
                                                 <span style={{}}>{element.userName}</span>
@@ -108,7 +137,6 @@ function Modal(props){
                             <div>
                                 <TextArea ref={textInput}></TextArea>
                             </div>
-                            
                             <Button width='100px' margin='5% 0 0 80%'_onClick={()=>{submit()}}>저장</Button>
                         </ContentBot>
                     </Grid>

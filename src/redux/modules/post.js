@@ -53,8 +53,8 @@ const clickLikeDB = (articleNum, like, token) => {
       }
     })
     .then(response =>{
-      console.log(response)
-      dispatch(setLiked(!like))
+      console.log(response.like)
+      // dispatch(setLiked(response.like))
     })
     .catch(error => {
       console.log(error)
@@ -63,22 +63,27 @@ const clickLikeDB = (articleNum, like, token) => {
 }
 
 
-const getPostModalDB = (articleNum) => {
+const getLikeDB = (articleNum) => {
   return function (dispatch, getState){
     axios({
       method : 'get',
       url : `http://3.35.27.190/api/modal?articleNum=${articleNum}`,
     })
     .then(response => {
-      console.log(response.data)
-      const post_list = response.data.comments
-      dispatch(setPost(post_list));
+      let data = response.data
+      let like_list = []
+      data.like.forEach(e=>{
+        like_list.push(e.userId)
+      })
+      dispatch(setPost(like_list));
     })
     .catch(error =>{
       console.log('Modal middleware error')
     })
   }
 }
+
+
 
 // reducer
 export default handleActions(
@@ -94,8 +99,7 @@ export default handleActions(
       draft.list = action.payload.comment
     }),
     [SET_LIKED] : (state, action) => produce(state, (draft) => {
-      console.log(action)
-      // draft.list = action.payload
+      draft.list = action.payload.like_idList;
     })
   }, initialState
 );
@@ -104,7 +108,7 @@ const actionCreators = {
   setPost,
   addPost,
   addPostDB,
-  getPostModalDB,
+  getLikeDB,
   setModal,
   clickLikeDB,
   setLiked,

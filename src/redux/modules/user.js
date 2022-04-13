@@ -35,7 +35,7 @@ const loginDB = (id, pw) => {
       setCookie("is_login", token);
       sessionStorage.setItem("token", token)
       
-      dispatch(setUser());
+      dispatch(setUser(id));
       history.push("/");
     }).catch( err => {
       window.alert("로그인 실패!");
@@ -126,7 +126,8 @@ export default handleActions(
   {
     // 로그인시 받을 데이터
     [SET_USER]: (state, action) => 
-      produce(state, (draft) => {          
+      produce(state, (draft) => {
+        draft.user = action.payload.user          
         draft.is_login = true;      // draft는 state다. state 값을 바꾼다. 리덕스에 저장
     }),
     [LOG_OUT]: (state, action) =>
