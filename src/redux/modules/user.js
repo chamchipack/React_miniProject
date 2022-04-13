@@ -8,16 +8,19 @@ import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
 // actions
 const LOG_OUT = "LOG_OUT";
 const SET_USER = "SET_USER";
+const SET_PROFILE = "SET_PROFILE"
 
 // action creators
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 const setUser = createAction(SET_USER, (user) => ({ user }));
+const setProfile = createAction(SET_PROFILE, (user) => ({ user }));
 
 
 // initialState
 const initialState = {
   user: null,
   is_login: false,
+  profile: null,
 };
 
 // 미들웨어
@@ -99,24 +102,26 @@ const checkPwDB = (pw) => {
 }
 
 // 닉네임변경
-const editProfileDB = (profile, name) => {
+const editProfileDB = (formData) => {
   const cookie = getCookie("is_login");
   console.log(cookie);
   return function (dispatch, getState, { history }) {
     axios({
-      method: "post",
-      url: "http://3.35.27.190/api/pwCheck",
-      data: {
-        userProfile: profile,
-        userName: name,
-      },
+      method: "put",
+      url: "http://3.35.27.190/api/myInfoUpdate",
+      data: formData,
       headers: {
-        Authorization: `Bearer${cookie}`
+        Authorization: `Bearer${cookie}`,
+        'Content-Type': 'multipart/form-data',
       }
     }).then( res => {
       console.log(res);
+      window.alert("수정되었습니다!");
+      dispatch(setProfile());
+      history.push("/mypage")
     }).catch( err => {
       console.log(err);
+      window.alert("실패했습니다!")
     })
   }
 }
@@ -135,6 +140,10 @@ export default handleActions(
         draft.is_login = false;
         // console.log(action.payload);    // {user: test}
       }),
+    [SET_PROFILE]: (state, action) =>
+      produce(state, (draft) => {
+        draft.profile = action.payload.user;
+      })
   },
   initialState
 );

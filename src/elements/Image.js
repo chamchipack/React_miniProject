@@ -43,7 +43,7 @@ const ImageDefault = styled.div`
 
 const AspectOutter = styled.div`
   width: 100%;
-  min-width: 250px;
+  /* min-width: 250px; */
 `;
 
 const AspectInner = styled.div`
@@ -55,7 +55,7 @@ const AspectInner = styled.div`
 `;
 
 const ImageCircle = styled.div`
-  --size: ${(props) => props.size}px;
+  /* --size: ${(props) => props.size}px; */
   width: var(--size);
   height: var(--size);
   border-radius: var(--size);

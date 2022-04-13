@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { FiSearch } from "react-icons/fi";
-import { Button } from "../elements";
+import { Button, Text } from "../elements";
 import { history } from "../redux/configureStore";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -56,8 +56,8 @@ const Header = (props) => {
         <select style={{
             width: "100px",
             height: "30px",
-            border: "none",
-            backgroundColor: "#f7f7f7",
+            border: "1px solid #ffb72b",
+            backgroundColor: "#fff",
           }}
           onChange={handleChange}
         >
@@ -72,15 +72,19 @@ const Header = (props) => {
           ))}
         </select>
         <input style={{
-            height: "40px",
+            height: "30px",
             border: "none",
-            borderBottom: "2px solid #ffb72b",
-            backgroundColor: "#f7f7f7",
+            borderBottom: "1px solid #ffb72b",
+            backgroundColor: "#fff",
+            boxSizing: "border-box",
+            fontSize: "16px",
+            paddingLeft: "5px",
+            marginLeft: "10px"
           }}
           type="text"
           ref={searchRef}
         />
-        <FiSearch size={30} onClick={searchClick} />
+        <FiSearch size={20} onClick={searchClick} />
       </div>
       {is_session ? (
         <div
@@ -91,15 +95,15 @@ const Header = (props) => {
           gap: "20px",
         }}>
         <Button
-          width="80px" _onClick={() => {
+          _onClick={() => {
             history.push("/mypage");}}>
-          mypage
+          MYPAGE
         </Button>
-        <Button width="80px" _onClick={() => {
+        <Button _onClick={() => {
             dispatch(userActions.logOutDB());
             history.push("/");
           }}>
-          logout
+          LOGOUT
         </Button>
       </div>
       ) : (
@@ -117,7 +121,7 @@ const Header = (props) => {
               history.push("/signup");
             }}
           >
-            signup
+            SIGNUP
           </Button>
           <Button
             width="80px"
@@ -125,7 +129,7 @@ const Header = (props) => {
               history.push("/login");
             }}
           >
-            login
+            LOGIN
           </Button>
         </div>
       )}
@@ -134,14 +138,20 @@ const Header = (props) => {
 };
 
 const HeaderDiv = styled.div`
-  background: #f7f7f7;
+  background: #fff;
   height: 60px;
   width: 100%;
   color: #ffb72b;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  input:focus {
+    outline: none;
+  }
+  select:focus {
+    outline: none;
+  }
 `;
 
 export default Header;
- 

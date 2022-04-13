@@ -28,13 +28,20 @@ Button.defaultProps = {
 
 const ElButton = styled.button`
   width: ${(props) => props.width};
-  background-color: #FFB72B;
-  color: #ffffff;
+  background: none;
+  color: #FFB72B;
+  font-size: 16px;
+  font-weight: 800;
   padding: ${(props) => props.padding};
   box-sizing: border-box;
-  border: 2px solid #FFB72B;
+  border: none;
   border-radius: 10px;
   ${(props) => (props.margin? `margin: ${props.margin};` : "")}
+  transition: 0.2s;
+  
+  &:hover {
+    color: #ffa72a;
+  }
 `;
 
 export default Button;

@@ -90,7 +90,7 @@ function Modal(props){
                         </ContentTop>
                         <ContentBot>
                             {/* 이 부분부터 댓글 반복문 시작 */}
-                            <div style={{height:'350px', background:'#eee'}}>
+                            <div style={{height:'270px', background:'#eee'}}>
                             {
                                 comment_list.map((element,i)=>{
                                     return(
@@ -107,7 +107,7 @@ function Modal(props){
                                 <TextArea ref={textInput}></TextArea>
                             </div>
                             
-                            <Button width='100px' margin='5% 0 0 80%'_onClick={()=>{submit()}}>저장</Button>
+                            <Button width='100px' margin='10px 0 0 20px'_onClick={()=>{submit()}}>저장</Button>
                         </ContentBot>
                     </Grid>
                 </Grid>
@@ -123,17 +123,18 @@ export const Modalblack = styled.div`
     height: 100%;
     position: fixed;
     text-align: center;
-    margin-top : -8%;
-    margin-left : -10%;
+    left : 0;
+    top: 0;
     z-index:5;
 `
 export const Modalwhite = styled.div`
     display: inline-block;
     background: white;
     margin-top: 100px;
-    width: 60%;
-    height: 700px;
-    padding: 60px;
+    width: 50%;
+    height: 600px;
+    padding: 40px;
+    box-sizing: border-box;
 `
 export const ContentTop = styled.div`
     width:100%;
@@ -141,16 +142,19 @@ export const ContentTop = styled.div`
 `
 export const ContentBot = styled.div`
     width:100%;
-    height:100%;
+    height:80%;
     padding:20px;
+    /* background: blue; */
 `
 export const TextArea = styled.input`
     resize: none;
     width: 90%;
-    height: 130px;
+    height: 50px;
     border: 3px solid gray;
     border-radius: 10px;
     padding: 10px;
     font-size : 20px;
+    box-sizing: border-box;
+    margin-top: 30px;
 `
-export default Modal
+export default Modal;

@@ -32,7 +32,12 @@ export default MyPage;
 const Bar = styled.div`
   position: fixed;
   top: 150px;
-  left: 0;
+  left: -135px;
+  transition: 0.5s;
+
+  &:hover {
+    left: 0px;
+  }
 `;
 
 const ArticleList = styled.div`

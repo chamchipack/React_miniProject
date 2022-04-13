@@ -21,24 +21,43 @@ const ChangeNick = () => {
     reader.onloadend = () =>{
       dispatch(imageActions.uploadImageDB(reader.result));
     }
+    console.log(file)
   }
 
+  // form으로 이미지 전달
+  const [name, setName] = useState("");
+  
+  const formData = new FormData();
+  if(fileInput.current){
+      formData.append('userProfile', fileInput.current.files[0]);
+      formData.append('userName', name);
+    }
+  
   const submit = () => {
-    // dispatch(userActions.editProfileDB(profile, name));
+    if (name === "") {
+      return window.alert("닉네임을 입력해주세요!")
+    }
+    return (
+      console.log("제출됨!"),
+      dispatch(userActions.editProfileDB(formData))
+    )
   }
-
+  console.log(formData, name)
   return (
     <React.Fragment>
       <Wrap>
         <Content>
-          <img style={{borderRadius:'50%', width:'150px', margin:'10px'}} src={preview? preview : "https://www.morepowerfulnc.org/wp-content/uploads/2018/10/300x300-1.png"}/>
+          <img 
+            style={{borderRadius:'50%', width:'150px', margin:'10px'}} 
+            src={preview? preview : "https://www.morepowerfulnc.org/wp-content/uploads/2018/10/300x300-1.png"}/>
           <input accept='image/*' type='file' ref={fileInput} onChange={changePreview} />
         </Content>
 
         <Content>
-          <Input label="닉네임 변경" placeholder="변경할 닉네임을 입력해주세요."/>
+          <Input label="닉네임 변경" placeholder="변경할 닉네임을 입력해주세요." size={25}
+            _onChange={(e) => { setName(e.target.value); }} />
           {/* 기존 닉네임 받아온 후에 입력한 값과 같은지 확인하는 함수 넣기 */}
-          <Button _onClick={submit}>변경</Button>
+          <Button onClick={submit}>변경</Button>
         </Content>
       </Wrap>
       <Bar>
@@ -77,6 +96,7 @@ const Button = styled.button`
   padding: 10px 20px;
   border-radius: 5px;  
   font-weight: 700;
+  margin-top: 30px;
 
   &:hover {
     background: #ddd;
