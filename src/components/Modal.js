@@ -6,6 +6,7 @@ import {actionCreators as commentActions} from '../redux/modules/comment';
 import {Grid, Input, Image, Button, Text} from '../elements/index';
 import {FaHeart} from 'react-icons/fa'
 import {getCookie} from '../shared/Cookie';
+import Permit from './Permit';
 
 function Modal(props){
     const dispatch = useDispatch();
@@ -77,18 +78,14 @@ function Modal(props){
                 }
                 <div style={{float:'right'}}><Button _onClick={()=>{setModal(!getModal)}} width='50px' margin='0 0 0 40%'>X</Button></div>
 
-                {
-                    post.userId == current_id.userId
-                    ? <div style={{float:'right'}}><Button width='50px' margin='0 0 0 30%'>삭제</Button></div>
-                    : null
-                }
-                
+                <Permit post={post}>
+                    <div style={{float:'right'}}><Button width='50px' margin='0 0 0 30%'>삭제</Button></div>
                 {
                     update == true
                     ?<div style={{float:'right'}}><Button _onClick={()=>{setUpdate(!update)}} width='100px' margin='0 0 0 10%'>수정저장</Button></div>
                     :<div style={{float:'right'}}><Button _onClick={()=>{setUpdate(!update)}} width='50px' margin='0 0 0 20%'>수정</Button></div>
                 }
-                
+                </Permit>
                 <Grid is_flex>
                     <Grid flex width='100%'> 
                             <Image shape='rectangle' src={`http://3.35.27.190${post.articleThumb}`}/>
