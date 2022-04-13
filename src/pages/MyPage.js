@@ -8,14 +8,14 @@ import SideBar from "../components/SideBar";
 const MyPage = () => {
   const dispatch = useDispatch();
   const articleList = useSelector((state) => state.article.list);
- 
+
   React.useEffect(() => {
     dispatch(articleActions.getArticleFB());
   }, []);
 
   return (
     <React.Fragment>
-     <ArticleList>
+      <ArticleList>
         {articleList.map((a, idx) => {
           return <Article key={a.articleNum} {...a} />;
         })}

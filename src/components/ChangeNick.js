@@ -1,7 +1,7 @@
 import React from "react";
 import { useRef, useState } from 'react';
 import {actionCreators as imageActions} from '../redux/modules/image';
-import {actionCreators as postActions} from '../redux/modules/post';
+import { actionCreators as userActions } from "../redux/modules/user";
 import styled from "styled-components";
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,21 +10,22 @@ import SideBar from "./SideBar";
 
 const ChangeNick = () => {
   const dispatch = useDispatch();
+  
+  // 이미지 미리보기
   const preview = useSelector(state => state.image.preview);
   const fileInput = useRef(null);
-
   const changePreview = (e) => {
     const reader = new FileReader();
     const file = fileInput.current.files[0]
     reader.readAsDataURL(file)
     reader.onloadend = () =>{
-        dispatch(imageActions.uploadImageDB(reader.result))
+      dispatch(imageActions.uploadImageDB(reader.result));
     }
   }
 
   const submit = () => {
-    
-}
+    // dispatch(userActions.editProfileDB(profile, name));
+  }
 
   return (
     <React.Fragment>

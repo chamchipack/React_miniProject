@@ -82,7 +82,7 @@ const Header = (props) => {
         />
         <FiSearch size={30} onClick={searchClick} />
       </div>
-      {is_session && is_login ? (
+      {is_session ? (
         <div
         style={{
           display: "flex",

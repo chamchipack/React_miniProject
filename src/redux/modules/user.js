@@ -93,6 +93,30 @@ const checkPwDB = (pw) => {
       history.push("/mypage/changenick");
     }).catch( err => {
       console.log(err);
+      window.alert("비밀번호가 틀렸습니다!");
+    })
+  }
+}
+
+// 닉네임변경
+const editProfileDB = (profile, name) => {
+  const cookie = getCookie("is_login");
+  console.log(cookie);
+  return function (dispatch, getState, { history }) {
+    axios({
+      method: "post",
+      url: "http://3.35.27.190/api/pwCheck",
+      data: {
+        userProfile: profile,
+        userName: name,
+      },
+      headers: {
+        Authorization: `Bearer${cookie}`
+      }
+    }).then( res => {
+      console.log(res);
+    }).catch( err => {
+      console.log(err);
     })
   }
 }
@@ -123,6 +147,7 @@ const actionCreators = {
   loginDB,
   logOutDB,
   checkPwDB,
+  editProfileDB,
 };
 
 export { actionCreators };

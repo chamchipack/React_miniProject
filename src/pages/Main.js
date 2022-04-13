@@ -24,7 +24,7 @@ const Main = (props) => {
         className="plus"
         size={60}
         onClick={() => {
-          history.push("/login");
+          history.push("/add");
         }}
       />
       <ArticleList>
