@@ -1,22 +1,30 @@
 import { createAction, handleActions } from "redux-actions";
-import {produce} from "immer";
+import { produce } from "immer";
 import moment from "moment";
 
 import { actionCreators as imageActions } from "./image";
 import axios from "axios";
-import {RESP} from "./reponse";
+import { RESP } from "./reponse";
 
 const SET_ARTICLE = "SET_ARTICLE";
-const ADD_ARTICLE = "ADD_ARTICLE";
 const SEARCH_ARTICLE = "SEARCH_ARTICLE";
+const DELETE_ARTICLE = "DELETE_ARTICLE";
+const EDIT_ARTICLE = "EDIT_ARTICLE";
 
-const setArticle = createAction(SET_ARTICLE, (articleList) => ({articleList}));
-const addArticle = createAction(ADD_ARTICLE, (article) => ({article}));
-const searchArticle = createAction(SEARCH_ARTICLE, (articleList) => ({articleList}));
+const setArticle = createAction(SET_ARTICLE, (articleList) => ({
+  articleList,
+}));
+const searchArticle = createAction(SEARCH_ARTICLE, (articleList) => ({
+  articleList,
+}));
+const deleteArticle = createAction(DELETE_ARTICLE, (articleNum) => ({
+  articleNum,
+}));
+const editArticle = createAction(EDIT_ARTICLE, (article) => ({ article }));
 
 const initialState = {
   list: [],
-}
+};
 
 const initialArticle = {
   articleNum: 1,
@@ -26,66 +34,129 @@ const initialArticle = {
   articleLikeNum: 0,
   articleCommentNum: 1,
   userId: "작성자 아이디",
-  articleKind: "카테고리"
+  articleKind: "카테고리",
 };
 
 //middleware;
 
 const getArticleFB = () => {
-
   return function (dispatch, getState, { history }) {
-    axios.get("http://3.35.27.190/api/main")
-    .then((response)=>{
-    let articleList = [];
-    const articles = response.data.articles;
-    articles.forEach((article) => {
-      articleList.push({ articleNum: article.articleNum, ...article});
-    });
-    dispatch(setArticle(articleList));
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
-}
+    axios
+      .get("http://3.35.27.190/api/main")
+      .then((response) => {
+        let articleList = [];
+        const articles = response.data.articles;
+        articles.forEach((article) => {
+          articleList.push({ articleNum: article.articleNum, ...article });
+        });
+        dispatch(setArticle(articleList));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
 
 const searchFB = (category = null, searchWord = null) => {
-
   return function (dispatch, getState, { history }) {
-    axios.get(`http://3.35.27.190/api/search?articleKind=${category}&articleDesc=${searchWord}`)
-    .then((response)=>{
-    let articleList = [];
-    const articles = response.data.articles;
-    articles.forEach((article) => {
-      articleList.push({ articleNum: article.articleNum, ...article});
-    });
-    dispatch(setArticle(articleList));
-    }).catch((error) => {
-      console.log(error);
-    });
+    axios
+      .get(
+        `http://3.35.27.190/api/search?articleKind=${category}&articleDesc=${searchWord}`
+      )
+      .then((response) => {
+        let articleList = [];
+        const articles = response.data.articles;
+        articles.forEach((article) => {
+          articleList.push({ articleNum: article.articleNum, ...article });
+        });
+        dispatch(setArticle(articleList));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-}
+};
+
+const deleteArticleFB = (articleNum = null, token) => {
+  return function (dispatch, getState, { history }) {
+    axios({
+      method: "delete",
+      url: "http://3.35.27.190/api/articleDelete",
+      headers: {
+        Authorization: `Bearer${token}`,
+      },
+      body: {
+        articleNum: articleNum,
+      },
+    })
+      .then((response) => {
+        dispatch(deleteArticle(articleNum));
+        history.replace("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+const editArticleFB = (formData, token) => {
+  return function (dispatch, getState, { history }) {
+    axios({
+      method: "put",
+      url: "http://3.35.27.190/api/articleUpdate",
+      data : formData,
+      headers: {
+        Authorization: `Bearer${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then((response) => {
+        dispatch(
+          editArticle(response)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
 
 // reducer
 export default handleActions(
   {
-    [SET_ARTICLE]: (state, action) => produce(state, (draft) => {
-      draft.list = action.payload.articleList;
-    }),
-    [ADD_ARTICLE]: (state, action) => produce(state, (draft) => {
-      draft.list.unshift(action.payload.post);
-    }),
-    [SEARCH_ARTICLE]: (state, action) => produce(state, (draft) => {
-      draft.list = action.payload.articleList;
-    })
-  }, initialState
+    [SET_ARTICLE]: (state, action) =>
+      produce(state, (draft) => {
+        draft.list = action.payload.articleList;
+      }),
+    [SEARCH_ARTICLE]: (state, action) =>
+      produce(state, (draft) => {
+        draft.list = action.payload.articleList;
+      }),
+    [DELETE_ARTICLE]: (state, action) =>
+      produce(state, (draft) => {
+        console.log(draft.list);
+        let new_article_list = draft.list.filter(
+          (p) => p.articleNum !== action.payload.articleNum
+        );
+        draft.list = new_article_list;
+      }),
+    [EDIT_ARTICLE]: (state, action) =>
+      produce(state, (draft) => {
+        draft.list.unshift(action.payload.article);
+      }),
+  },
+  initialState
 );
 
 const actionCreators = {
   setArticle,
-  addArticle,
   getArticleFB,
   searchArticle,
-  searchFB
-}
+  searchFB,
+  deleteArticleFB,
+  deleteArticle,
+  editArticleFB,
+  editArticle
+};
 
-export {actionCreators};
+export { actionCreators };
