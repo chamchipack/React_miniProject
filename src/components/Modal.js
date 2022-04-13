@@ -15,22 +15,29 @@ function Modal(props){
     const comment_list = useSelector(state => state.comment.list)
     const like_list = useSelector(state => state.post.list)
     const what = useSelector(state => state.article.list);
-   
-    const parseToken = (token) => {
+    
+    
+    const parseToken = (token = 'null') => {
         try {
             return JSON.parse(atob(token.split('.')[1]));
           } catch (e) {
             return null;
           }
     }
-    const current_id = parseToken(cookie);
 
-    const judged = (list, id) => {
+    const judged = (list = 'null', id = 'null') => {
         if(list.includes(id)){
             return true
         } 
     }
-    const checked = judged(like_list, current_id.userId);
+
+    const checkLog = () => {
+    if(cookie){
+        const current_id = parseToken(cookie);
+        const checked = judged(like_list, current_id.userId);
+        return checked
+        }
+    }
 
     useEffect(()=>{
         dispatch(commentActions.getCommentDB(props.articleNum));
@@ -48,14 +55,14 @@ function Modal(props){
     }
 
     const likeClick = () => {
-        if(checked == true){
-            liked = checked
+        if(checkLog() == true){
+            liked = checkLog();
         } else {
             liked = false
         }
         dispatch(postActions.clickLikeDB(post.articleNum, liked, cookie))
     }
-    console.log(post.userId, current_id.userId)
+    
     
     return(
         <>
@@ -77,7 +84,6 @@ function Modal(props){
                 : null
                 }
                 <div style={{float:'right'}}><Button _onClick={()=>{setModal(!getModal)}} width='50px' margin='0 0 0 40%'>X</Button></div>
-
                 <Permit post={post}>
                     <div style={{float:'right'}}><Button width='50px' margin='0 0 0 30%'>삭제</Button></div>
                 {
@@ -96,7 +102,7 @@ function Modal(props){
                                 : <Text>{post.articleDesc}</Text>
                             }
                             <FaHeart onClick={()=>{likeClick()}} style={{position:'absolute', right:'10',
-                             bottom:'10', fontSize:'50px', color:checked==true ?'red' : 'gray'}}/>
+                             bottom:'10', fontSize:'50px', color:checkLog()==true ?'red' : 'gray'}}/>
                         </Grid>
                     </Grid>
                     <Grid flex>
@@ -148,6 +154,7 @@ export const Modalblack = styled.div`
     height: 100%;
     position: fixed;
     text-align: center;
+    margin-top:-20%;
     margin-left : -10%;
     z-index:5;
 `
