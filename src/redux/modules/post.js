@@ -70,8 +70,8 @@ const getPostModalDB = (articleNum) => {
       url : `http://3.35.27.190/api/modal?articleNum=${articleNum}`,
     })
     .then(response => {
+      console.log(response.data)
       const post_list = response.data.comments
-      console.log(post_list)
       dispatch(setPost(post_list));
     })
     .catch(error =>{

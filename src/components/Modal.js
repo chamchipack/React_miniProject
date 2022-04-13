@@ -11,16 +11,18 @@ function Modal(props){
     const dispatch = useDispatch();
     const textInput = useRef();
     const comment_list = useSelector(state => state.post.list)
+    const like_list = useSelector(state => state)
     useEffect(()=>{
         dispatch(postActions.getPostModalDB(props.articleNum));
     },[])
     console.log(comment_list)
+    console.log(like_list)
     const post = props.data
     const [update, setUpdate] = useState(false);
     let setModal = props.setModal;
     let getModal = props.getModal;
     let liked = false;
-
+    
     const cookie = getCookie("is_login");
     const submit = () => {
         // post id값과 토큰 추가
@@ -123,7 +125,6 @@ export const Modalblack = styled.div`
     height: 100%;
     position: fixed;
     text-align: center;
-    margin-top : -8%;
     margin-left : -10%;
     z-index:5;
 `
