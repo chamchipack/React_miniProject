@@ -38,7 +38,7 @@ const Header = (props) => {
 
   return (
     <HeaderDiv>
-      <p onClick={() => { history.push("/"); }}
+      <p onClick={() => { history.push("/"); window.location.reload(); }}
         style={{
           fontFamily: "Quicksand",
           fontSize: "30px",
