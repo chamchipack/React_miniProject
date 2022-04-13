@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Image, Text, Button } from "../elements";
+import { Image, Text } from "../elements";
 import Modal from '../components/Modal';
-import { useSelector } from "react-redux";
+import moment from "moment";
+import "moment/locale/ko";
+
 
 const Article = (props) => {
   const [getModal, setModal] = useState(false);
+
   return (
     <>
     {
@@ -20,7 +23,7 @@ const Article = (props) => {
         <Text bold margin="10px">
           {props.userId}
         </Text>
-        <Text>{props.articleDate}</Text>
+        <Text>{moment(props.articleDate).fromNow()}</Text>
       </div>
         <div style={{float: "left"}}>
           <Text>{props.articleDesc}</Text>

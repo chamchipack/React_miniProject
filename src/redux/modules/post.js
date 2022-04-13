@@ -53,7 +53,6 @@ const clickLikeDB = (articleNum, like, token) => {
       }
     })
     .then(response =>{
-      console.log(response)
       dispatch(setLiked(!like))
     })
     .catch(error => {
@@ -71,7 +70,6 @@ const getPostModalDB = (articleNum) => {
     })
     .then(response => {
       const post_list = response.data.comments
-      console.log(post_list)
       dispatch(setPost(post_list));
     })
     .catch(error =>{
@@ -90,7 +88,6 @@ export default handleActions(
       draft.list.unshift(action.payload.post);
     }),
     [SET_MODAL] : (state, action) => produce(state, (draft) => {
-      console.log(draft)
       draft.list = action.payload.comment
     }),
     [SET_LIKED] : (state, action) => produce(state, (draft) => {

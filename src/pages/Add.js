@@ -35,7 +35,7 @@ function Add(){
             [name]: value
         })
     }
-    console.log(fileInput.current)
+
     const formData = new FormData();
         if(fileInput.current){
             formData.append('articleThumb', fileInput.current.files[0])
