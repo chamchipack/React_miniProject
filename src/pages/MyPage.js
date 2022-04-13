@@ -1,4 +1,5 @@
 import React from "react";
+import "../shared/App.css";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as articleActions } from "../redux/modules/article";
@@ -15,6 +16,7 @@ const MyPage = () => {
 
   return (
     <React.Fragment>
+      
       <ArticleList>
         {articleList.map((a, idx) => {
           return <Article key={a.articleNum} {...a} />;

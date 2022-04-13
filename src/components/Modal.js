@@ -1,44 +1,62 @@
-import React from "react";
-import { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { actionCreators as postActions } from "../redux/modules/post";
-import { actionCreators as commentActions } from "../redux/modules/comment";
-import { actionCreators as articleActions } from "../redux/modules/article";
-import { actionCreators as imageActions } from "../redux/modules/image";
-import { Grid, Input, Image, Button, Text } from "../elements/index";
-import { FaHeart } from "react-icons/fa";
-import { getCookie } from "../shared/Cookie";
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+import {actionCreators as postActions} from '../redux/modules/post';
+import {actionCreators as commentActions} from '../redux/modules/comment';
+import {actionCreators as articleActions} from '../redux/modules/article';
+import {actionCreators as imageActions} from '../redux/modules/image';
+import {Grid, Input, Image, Button, Text} from '../elements/index';
+import {FaHeart} from 'react-icons/fa'
+import {getCookie} from '../shared/Cookie';
+import Permit from './Permit';
 
-function Modal(props) {
-  const dispatch = useDispatch();
-  const textInput = useRef();
-  const comment_list = useSelector((state) => state.post.list);
-  React.useEffect(() => {
-    dispatch(postActions.getPostModalDB(props.articleNum));
-  }, []);
+function Modal(props){
+    const dispatch = useDispatch();
+    const cookie = getCookie("is_login");
+    const textInput = useRef();
+    const comment_list = useSelector(state => state.comment.list)
+    const like_list = useSelector(state => state.post.list)
+    const what = useSelector(state => state.article.list);
+    
+    
+    const parseToken = (token = 'null') => {
+        try {
+            return JSON.parse(atob(token.split('.')[1]));
+          } catch (e) {
+            return null;
+          }
+    }
 
-  const post = props.data;
-  const [update, setUpdate] = useState(false);
-  let setModal = props.setModal;
-  let getModal = props.getModal;
-  let liked = false;
-  const cookie = getCookie("is_login");
-  const submit = () => {
-    // post id값과 토큰 추가
-    dispatch(
-      commentActions.addCommentDB(
-        cookie,
-        post.articleNum,
-        textInput.current.value
-      )
-    );
-  };
-  const likeClick = () => {
-    liked = !liked;
-    console.log(liked);
-    dispatch(postActions.clickLikeDB(post.articleNum, liked, cookie));
-  };
+    const judged = (list = 'null', id = 'null') => {
+        if(list.includes(id)){
+            return true
+        } 
+    }
+
+    const checkLog = () => {
+    if(cookie){
+        const current_id = parseToken(cookie);
+        const checked = judged(like_list, current_id.userId);
+        return checked
+        }
+    }
+
+    useEffect(()=>{
+        dispatch(commentActions.getCommentDB(props.articleNum));
+        dispatch(postActions.getLikeDB(props.articleNum));
+    },[])
+
+    const post = props.data
+    const [update, setUpdate] = useState(false);
+    let setModal = props.setModal;
+    let getModal = props.getModal;
+    let liked = true;
+    
+    const submit = () => {
+        dispatch(commentActions.addCommentDB(cookie, post.articleNum, textInput.current.value))
+    }
+
+  const textRef = useRef(null);
 
   const deleteArticle = () => {
     dispatch(articleActions.deleteArticleFB(post.articleNum, cookie));
@@ -64,15 +82,14 @@ function Modal(props) {
     { value: "게임", name: "게임" },
   ];
 
-  const [category, setCategory] = React.useState("category");
+  const [category, setCategory] = useState("category");
   const handleChange = (e) => {
     if (e.target.value) {
       setCategory(e.target.value);
+        }
     }
-  };
-  const textRef = React.useRef(null);
-
-  const editArticle = () => {
+        
+    const editArticle = () => {
     const desc = textRef.current.value;
     const formData = new FormData();
     if (fileInput.current) {
@@ -83,6 +100,17 @@ function Modal(props) {
     }
     dispatch(articleActions.editArticleFB(formData, cookie));
   };
+
+  const likeClick = () => {
+    if(checkLog() == true){
+        liked = checkLog();
+    } else {
+        liked = false
+    }
+    dispatch(postActions.clickLikeDB(post.articleNum, liked, cookie))
+    }
+
+  
 
   return (
     <>
@@ -124,6 +152,7 @@ function Modal(props) {
               X
             </Button>
           </div>
+          <Permit post={post}>
           <div style={{ float: "right" }}>
             <Button width="50px" margin="0 0 0 30%" _onClick={deleteArticle}>
               삭제
@@ -155,6 +184,7 @@ function Modal(props) {
               </Button>
             </div>
           )}
+          </Permit>
           <Grid is_flex>
             <Grid flex width="100%">
               <Image
@@ -178,7 +208,7 @@ function Modal(props) {
                     right: "10",
                     bottom: "10",
                     fontSize: "50px",
-                    color: liked == false ? "gray" : "red",
+                    color: checkLog() == true ? "red" : "gray",
                   }}
                 />
               </Grid>
@@ -195,7 +225,7 @@ function Modal(props) {
                   <Grid width="40%">
                     <Text>{post.articleDate}</Text>
                     <Text>
-                      댓글 {post.articleCommentNum}개 좋아요{" "}
+                      댓글 {post.articleCommentNum}개 좋아요
                       {post.articleLikeNum}개
                     </Text>
                   </Grid>
@@ -234,7 +264,7 @@ function Modal(props) {
         </Modalwhite>
       </Modalblack>
     </>
-  );
+  )
 } 
 
 export const Modalblack = styled.div`
@@ -277,4 +307,4 @@ export const TextArea = styled.input`
   box-sizing: border-box;
   margin-top: 30px;
 `;
-export default Modal;
+export default Modal
