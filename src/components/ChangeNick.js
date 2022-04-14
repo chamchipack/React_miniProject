@@ -21,7 +21,6 @@ const ChangeNick = () => {
     reader.onloadend = () =>{
       dispatch(imageActions.uploadImageDB(reader.result));
     }
-    console.log(file)
   }
 
   // form으로 이미지 전달
@@ -38,11 +37,9 @@ const ChangeNick = () => {
       return window.alert("닉네임을 입력해주세요!")
     }
     return (
-      console.log("제출됨!"),
       dispatch(userActions.editProfileDB(formData))
     )
   }
-  console.log(formData, name)
   return (
     <React.Fragment>
       <Wrap>

@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import {Grid, Input, Text, Button} from '../elements/index';
 import {actionCreators as imageActions} from '../redux/modules/image';
@@ -9,6 +10,7 @@ import {actionCreators as postActions} from '../redux/modules/post';
 import {getCookie} from '../shared/Cookie';
 
 function Add(){
+    const history = useHistory();
     const dispatch = useDispatch();
     const fileInput = useRef(null);
     const [getInputs, setInputs] = useState({
@@ -45,9 +47,16 @@ function Add(){
             //     console.log(pair);
             //  }
         }
+    
+    const textRef = useRef(null); 
 
     const submit = () => {
-        dispatch(postActions.addPostDB(formData, cookie))
+        if (!textRef.current.value || !fileInput) {
+            window.alert("내용을 입력해주세요!");
+        } else {
+            dispatch(postActions.addPostDB(formData, cookie))
+            history.replace("/");
+        }
     }
     
     return(
@@ -73,7 +82,7 @@ function Add(){
                 <input style={{fontSize:'15px', width:'1px'}} accept='image/*' type='file' ref={fileInput} onChange={changePreview} id='file' />
             </Grid>
             <Grid>
-                <TextArea name='text' value={text} onChange={onChange} />
+                <TextArea name='text' value={text} onChange={onChange} ref={textRef} />
             </Grid>
             <Grid margin='5% 0 5% 0'>
                 <Button width='50%' _onClick={submit}>저장하기</Button>

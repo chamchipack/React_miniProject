@@ -52,7 +52,6 @@ const clickLikeDB = (articleNum, like, token) => {
       }
     })
     .then(response =>{
-      console.log(response)
       // dispatch(setLiked(response.data.result))
     })
     .catch(error => {

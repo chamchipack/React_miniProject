@@ -63,7 +63,6 @@ const signUpDB = (id, name, pw) => {
         userPw: pw,
       },
     }).then(response => {
-      console.log(response);
       history.push("/login");
     }).catch(error => {
       window.alert(error);
@@ -83,7 +82,6 @@ const logOutDB = () => {
 // 개인정보 수정시 비밀번호 체크
 const checkPwDB = (pw) => {
   const cookie = getCookie("is_login");
-  console.log(cookie);
   return function (dispatch, getState, { history }) {
     axios({
       method: "post",
@@ -95,7 +93,6 @@ const checkPwDB = (pw) => {
         Authorization: `Bearer${cookie}`
       }
     }).then( res => {
-      console.log(res);
       history.push("/mypage/changenick");
     }).catch( err => {
       console.log(err);
@@ -107,7 +104,6 @@ const checkPwDB = (pw) => {
 // 닉네임변경
 const editProfileDB = (formData) => {
   const cookie = getCookie("is_login");
-  console.log(cookie);
   return function (dispatch, getState, { history }) {
     axios({
       method: "put",
@@ -118,7 +114,6 @@ const editProfileDB = (formData) => {
         'Content-Type': 'multipart/form-data',
       }
     }).then( res => {
-      console.log(res);
       window.alert("수정되었습니다!");
       dispatch(setProfile());
       history.push("/mypage")
@@ -147,7 +142,6 @@ const getLikeArticleDB = () => {
         articleList.push(article);
       })
       dispatch(setMyLike(articleList));
-      console.log(articleList);
     }).catch(err => {
       console.log(err);
     })
@@ -168,7 +162,6 @@ export default handleActions(
       produce(state, (draft) => {
         draft.user = null;
         draft.is_login = false;
-        // console.log(action.payload);    // {user: test}
       }),
     [SET_PROFILE]: (state, action) =>
       produce(state, (draft) => {

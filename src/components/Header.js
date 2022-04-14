@@ -11,7 +11,6 @@ const Header = (props) => {
   
   const is_login = useSelector((state) => state.user.is_login);
   const is_session = sessionStorage.getItem("token")? true : false;
-  console.log("is_login: "+is_login, "is_session: "+is_session);
 
   const dispatch = useDispatch();
   const options = [

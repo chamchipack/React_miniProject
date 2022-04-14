@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import {actionCreators as postActions} from '../redux/modules/post';
@@ -6,6 +6,8 @@ import {actionCreators as commentActions} from '../redux/modules/comment';
 import {actionCreators as articleActions} from '../redux/modules/article';
 import {actionCreators as imageActions} from '../redux/modules/image';
 import {Grid, Input, Image, Button, Text} from '../elements/index';
+import moment from "moment"; 
+import "moment/locale/ko";
 import {FaHeart} from 'react-icons/fa'
 import {getCookie} from '../shared/Cookie';
 import Permit from './Permit';
@@ -18,7 +20,6 @@ function Modal(props){
     const comment_list = useSelector(state => state.comment.list)
     const like_list = useSelector(state => state.post.list);
     const [write, setWrite] = useState({thing : ''});
-    
     const parseToken = (token = 'null') => {
         try {
             return JSON.parse(atob(token.split('.')[1]));
@@ -26,7 +27,6 @@ function Modal(props){
             return null;
           }
     }
-
     const judged = (list = 'null', id = 'null') => {
         if(list.includes(id)){
             return true
@@ -36,12 +36,13 @@ function Modal(props){
     }
 
     const checkLog = () => {
-    if(cookie){
+      if(cookie){
         const current_id = parseToken(cookie);
         const checked = judged(like_list, current_id.userId);
         return checked
-        }
+      }
     }
+    const textRef = useRef([]);
 
     useEffect(()=>{
         dispatch(commentActions.getCommentDB(props.articleNum));
@@ -69,10 +70,11 @@ function Modal(props){
         setWrite({thing:''});
       }
 
-  const textRef = useRef(null);
 
   const deleteArticle = () => {
-    dispatch(articleActions.deleteArticleFB(post.articleNum, cookie));
+    if (window.confirm("정말 삭제하시겠어요?")) {
+      dispatch(articleActions.deleteArticleFB(post.articleNum, cookie));
+    }
   };
 
   const preview = useSelector((state) => state.image.preview);
@@ -116,7 +118,6 @@ function Modal(props){
   
 
   const likeClick = () => {
-    console.log(checkLog())
       if(checkLog() == true){
         liked = checkLog();
       } else {
@@ -124,7 +125,13 @@ function Modal(props){
       }
     dispatch(postActions.clickLikeDB(post.articleNum, liked, cookie))
     dispatch(postActions.setLiked(parseToken(cookie).userId, liked))
+  };
+
+  const deleteComment = (commentNum, token) => {
+    if(window.confirm('정말 삭제하시겠어요?')){
+      dispatch(commentActions.deleteCommentDB(commentNum, token))
     }
+  }
 
   return (
     <>
@@ -212,7 +219,7 @@ function Modal(props){
                 {update === true ? (
                   <TextArea name="text" ref={textRef} />
                 ) : (
-                  <Text>{post.articleDesc}</Text>
+                  <Text size={'20px'}>{post.articleDesc}</Text>
                 )}
                 <FaHeart
                   onClick={() => {
@@ -235,10 +242,10 @@ function Modal(props){
                     <Image shape="circle" size="50" />
                   </div>
                   <div style={{ marginLeft: "-30%" }}>
-                    <Text size="20px">{post.userInfo.userName}</Text>
+                    <Text size="20px">{post.userName}</Text>
                   </div>
                   <Grid width="40%">
-                    <Text>{post.articleDate}</Text>
+                    <Text>{moment(post.articleDate).fromNow()}</Text>
                     <Text>
                       댓글 {post.articleCommentNum}개 좋아요
                       {post.articleLikeNum}개
@@ -248,12 +255,17 @@ function Modal(props){
               </ContentTop>
               <ContentBot>
                 {/* 이 부분부터 댓글 반복문 시작 */}
-                <div style={{ height: "270px", background: "#eee" }}>
+                <div style={{ height: "270px", border:'1px solid gray', borderRadius:'10px'}}>
                   {comment_list.map((element, i) => {
                     return (
-                      <div style={{ display: "flex", height:'30px'}}>
-                        <div style={{float:'left', width:'100px'}}><p style={{}}>{element.userName}</p></div>
-                        <div style={{float:'left'}}><p style={{ marginLeft: "10px" }}>{element.contents}</p></div>
+                      <div key={element.commentNum} style={{ display: "flex", height:'30px'}}>
+                        <div style={{float:'left', width:'100px'}}><p style={{fontWeight:'bold'}}>{element.userName}</p></div>
+                        <div style={{float:'left', textAlign:'left', width:'200px'}}><p style={{ marginLeft: "10px" }}>{element.contents}</p></div>
+                        {
+                          element.userId == parseToken(cookie).userId
+                          ? <div style={{float:'right', marginTop:'3%'}}><button style={{border:'none', background:'#eee', borderRadius:'5px'}} onClick={()=>{deleteComment(element.commentNum, cookie)}}>삭제</button></div>
+                          : null
+                        }
                       </div>
                     );
                   })}
@@ -311,9 +323,9 @@ export const ContentBot = styled.div`
 `;
 export const TextArea = styled.input`
   resize: none;
-  width: 90%;
+  width: 100%;
   height: 50px;
-  border: 3px solid gray;
+  border: 1px solid gray;
   border-radius: 10px;
   padding: 10px;
   font-size: 20px;

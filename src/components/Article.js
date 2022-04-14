@@ -8,8 +8,6 @@ import "moment/locale/ko";
 
 const Article = (props) => {
   const [getModal, setModal] = useState(false);
-
-  // console.log(props.userInfo.userProfile)
   return (
     <Wrap>
     {
