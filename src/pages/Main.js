@@ -19,33 +19,32 @@ const Main = (props) => {
   }, []);
 
   const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
+    slidesToShow: 3,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
   };
 
   return (
     <>
       <Slider {...settings}>
         <div>
-          <h3>1</h3>
+          <img src="https://cdn.pixabay.com/photo/2016/11/29/04/54/photographer-1867417__340.jpg"/>
         </div>
         <div>
-          <h3>2</h3>
+          <img src="https://cdn.pixabay.com/photo/2019/11/20/11/15/knitting-4639828__340.jpg"/>
         </div>
         <div>
-          <h3>3</h3>
+          <img src="https://cdn.pixabay.com/photo/2016/08/19/14/45/books-1605416__340.jpg"/>
         </div>
         <div>
-          <h3>4</h3>
+        <img src="https://cdn.pixabay.com/photo/2020/06/09/03/08/craft-5276736__340.jpg"/>
         </div>
         <div>
-          <h3>5</h3>
+        <img src="https://cdn.pixabay.com/photo/2020/09/03/13/53/fishing-boat-5541327__340.jpg"/>
         </div>
         <div>
-          <h3>6</h3>
+        <img src="https://cdn.pixabay.com/photo/2017/01/13/09/23/magic-cube-1976725__340.jpg"/>
         </div>
       </Slider>
       {

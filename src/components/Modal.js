@@ -9,8 +9,10 @@ import {Grid, Input, Image, Button, Text} from '../elements/index';
 import {FaHeart} from 'react-icons/fa'
 import {getCookie} from '../shared/Cookie';
 import Permit from './Permit';
+import { useHistory } from 'react-router-dom';
 
 function Modal(props){
+  const history = useHistory();
     const dispatch = useDispatch();
     const cookie = getCookie("is_login");
     const comment_list = useSelector(state => state.comment.list)
@@ -44,6 +46,7 @@ function Modal(props){
     useEffect(()=>{
         dispatch(commentActions.getCommentDB(props.articleNum));
         dispatch(postActions.getLikeDB(props.articleNum));
+        dispatch(imageActions.setPreview(null));
     },[])
 
     const post = props.data
@@ -175,6 +178,7 @@ function Modal(props){
                 _onClick={() => {
                   setUpdate(!update);
                   editArticle();
+                  window.location.reload();
                 }}
                 width="100px"
                 margin="0 0 0 10%"

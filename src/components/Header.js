@@ -55,7 +55,7 @@ const Header = (props) => {
         <select style={{
             width: "100px",
             height: "30px",
-            border: "1px solid #ffb72b",
+            border: "1px solid #2474C2",
             backgroundColor: "#fff",
           }}
           onChange={handleChange}
@@ -73,7 +73,7 @@ const Header = (props) => {
         <input style={{
             height: "30px",
             border: "none",
-            borderBottom: "1px solid #ffb72b",
+            borderBottom: "1px solid #2474C2",
             backgroundColor: "#fff",
             boxSizing: "border-box",
             fontSize: "16px",
@@ -138,13 +138,8 @@ const Header = (props) => {
 };
 
 const HeaderDiv = styled.div`
-<<<<<<< HEAD
   background: #fff;
   height: 80px;
-=======
-  background: #fafafa;
-  height: 60px;
->>>>>>> ae84a85d38292ef50cbdbd9162e1bb64a57fb9c8
   width: 100%;
   color: #2474C2;
   display: flex;

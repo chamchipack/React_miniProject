@@ -4,7 +4,6 @@ import moment from "moment";
 
 import { actionCreators as imageActions } from "./image";
 import axios from "axios";
-import { RESP } from "./reponse";
 
 const SET_ARTICLE = "SET_ARTICLE";
 const DELETE_ARTICLE = "DELETE_ARTICLE";
@@ -159,7 +158,7 @@ const editArticleFB = (formData, token) => {
         );
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response);
       });
   };
 };

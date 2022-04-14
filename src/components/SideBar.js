@@ -40,7 +40,7 @@ const Wrap = styled.div`
   width: 150px;
   height: 300px;
   border-radius: 10px;
-  background: #ffb72b;
+  background: #2474C2;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -48,7 +48,7 @@ const Wrap = styled.div`
   div {
     height: 150px;
     border-radius: 10px;
-    background: #ffb72b;
+    background: #2474C2;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -58,7 +58,7 @@ const Wrap = styled.div`
     color: #fff;
 
     &:hover {
-      background: #ffc72b;
+      background: #2474C2;
     }
   }
 `;

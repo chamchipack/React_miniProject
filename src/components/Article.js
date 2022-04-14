@@ -22,7 +22,7 @@ const Article = (props) => {
       
       <div>
         <Image shape="circle" src={props.articleThumb} />
-        <div style={{borderBottom: "1px solid #ffb72b", overflow: "hidden"}}>
+        <div style={{borderBottom: "1px solid #2474C2", overflow: "hidden"}}>
           <div style={{display: "flex", justifyContent: "space-between"}}>            
             <Text bold margin="15px 30px 0 0">
               <Image shape="circle" />
