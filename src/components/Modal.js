@@ -18,7 +18,6 @@ function Modal(props){
     const comment_list = useSelector(state => state.comment.list)
     const like_list = useSelector(state => state.post.list);
     const [write, setWrite] = useState({thing : ''});
-    
     const parseToken = (token = 'null') => {
         try {
             return JSON.parse(atob(token.split('.')[1]));
@@ -26,7 +25,6 @@ function Modal(props){
             return null;
           }
     }
-
     const judged = (list = 'null', id = 'null') => {
         if(list.includes(id)){
             return true
@@ -128,6 +126,13 @@ function Modal(props){
     dispatch(postActions.clickLikeDB(post.articleNum, liked, cookie))
     dispatch(postActions.setLiked(parseToken(cookie).userId, liked))
   };
+
+  const deleteComment = (commentNum, token) => {
+    console.log(token)
+    if(window.confirm('정말 삭제하시겠어요?')){
+      dispatch(commentActions.deleteCommentDB(commentNum, token))
+    }
+  }
 
   return (
     <>
@@ -252,10 +257,16 @@ function Modal(props){
                 {/* 이 부분부터 댓글 반복문 시작 */}
                 <div style={{ height: "270px", background: "#eee" }}>
                   {comment_list.map((element, i) => {
+                    console.log(element)
                     return (
                       <div style={{ display: "flex", height:'30px'}}>
                         <div style={{float:'left', width:'100px'}}><p style={{}}>{element.userName}</p></div>
-                        <div style={{float:'left'}}><p style={{ marginLeft: "10px" }}>{element.contents}</p></div>
+                        <div style={{float:'left', textAlign:'left', width:'200px'}}><p style={{ marginLeft: "10px" }}>{element.contents}</p></div>
+                        {
+                          element.userId == parseToken(cookie).userId
+                          ? <div style={{float:'right', marginTop:'3%'}}><button onClick={()=>{deleteComment(element.commentNum, cookie)}}>삭제</button></div>
+                          : null
+                        }
                       </div>
                     );
                   })}
