@@ -7,16 +7,13 @@ import axios from "axios";
 import { RESP } from "./reponse";
 
 const SET_ARTICLE = "SET_ARTICLE";
-const SEARCH_ARTICLE = "SEARCH_ARTICLE";
 const DELETE_ARTICLE = "DELETE_ARTICLE";
 const EDIT_ARTICLE = "EDIT_ARTICLE";
 
 const setArticle = createAction(SET_ARTICLE, (articleList) => ({
   articleList,
 }));
-const searchArticle = createAction(SEARCH_ARTICLE, (articleList) => ({
-  articleList,
-}));
+
 const deleteArticle = createAction(DELETE_ARTICLE, (articleNum) => ({
   articleNum,
 }));
@@ -57,6 +54,52 @@ const getArticleFB = () => {
   };
 };
 
+const getMyArticleFB = (token) => {
+  return function (dispatch, getState, { history }) {
+    axios({
+      method: "get",
+      url: "http://3.35.27.190/api/article",
+      headers: {
+        Authorization: `Bearer${token}`,
+      },
+    })
+      .then((response) => {
+        let articleList = [];
+        const articles = response.data.articles;
+        articles.forEach((article) => {
+          articleList.push({ articleNum: article.articleNum, ...article });
+        });
+        dispatch(setArticle(articleList));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+const getMyLikeArticleFB = (token) => {
+  return function (dispatch, getState, { history }) {
+    axios({
+      method: "get",
+      url: "http://3.35.27.190/api/articleLike",
+      headers: {
+        Authorization: `Bearer${token}`,
+      },
+    })
+      .then((response) => {
+        let articleList = [];
+        const articles = response.data.articles;
+        articles.forEach((article) => {
+          articleList.push({ articleNum: article.articleNum, ...article });
+        });
+        dispatch(setArticle(articleList));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
 const searchFB = (category = null, searchWord = null) => {
   return function (dispatch, getState, { history }) {
     axios
@@ -81,11 +124,11 @@ const deleteArticleFB = (articleNum = null, token) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "delete",
-      url: "http://3.35.27.190/api/articleDelete",
+      url: `http://3.35.27.190/api/articleDelete`,
       headers: {
         Authorization: `Bearer${token}`,
       },
-      body: {
+      data: {
         articleNum: articleNum,
       },
     })
@@ -128,13 +171,8 @@ export default handleActions(
       produce(state, (draft) => {
         draft.list = action.payload.articleList;
       }),
-    [SEARCH_ARTICLE]: (state, action) =>
-      produce(state, (draft) => {
-        draft.list = action.payload.articleList;
-      }),
     [DELETE_ARTICLE]: (state, action) =>
       produce(state, (draft) => {
-        console.log(draft.list);
         let new_article_list = draft.list.filter(
           (p) => p.articleNum !== action.payload.articleNum
         );
@@ -151,12 +189,13 @@ export default handleActions(
 const actionCreators = {
   setArticle,
   getArticleFB,
-  searchArticle,
   searchFB,
   deleteArticleFB,
   deleteArticle,
   editArticleFB,
-  editArticle
+  editArticle,
+  getMyArticleFB,
+  getMyLikeArticleFB
 };
 
 export { actionCreators };

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { FiSearch } from "react-icons/fi";
 import { Button, Text } from "../elements";
 import { history } from "../redux/configureStore";
-
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { actionCreators as searchActions } from "../redux/modules/article";
@@ -38,7 +37,7 @@ const Header = (props) => {
 
   return (
     <HeaderDiv>
-      <p onClick={() => { history.push("/"); window.location.reload(); }}
+      <p onClick={() => { history.replace("/"); window.location.reload(); }}
         style={{
           fontFamily: "Quicksand",
           fontSize: "30px",
@@ -101,7 +100,8 @@ const Header = (props) => {
         </Button>
         <Button _onClick={() => {
             dispatch(userActions.logOutDB());
-            history.push("/");
+            history.replace("/");
+            window.location.reload();
           }}>
           LOGOUT
         </Button>
@@ -139,9 +139,9 @@ const Header = (props) => {
 
 const HeaderDiv = styled.div`
   background: #fff;
-  height: 60px;
+  height: 80px;
   width: 100%;
-  color: #ffb72b;
+  color: #2474C2;
   display: flex;
   align-items: center;
   justify-content: space-between;

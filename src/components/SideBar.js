@@ -2,21 +2,37 @@ import React from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
-
 const SideBar = () => {
-
   const history = useHistory();
 
   return (
     <React.Fragment>
       <Wrap>
-        <div onClick={() => { history.push("/mypage") }}>내가 올린게시물</div>
-        <div onClick={() => { history.push("/mypage/like") }}>좋아요 누른 게시물</div>
-        <div onClick={() => { history.push("/mypage/auth") }}>개인정보 수정</div>
+        <div
+          onClick={() => {
+            history.push("/mypage");
+          }}
+        >
+          내가 올린게시물
+        </div>
+        <div
+          onClick={() => {
+            history.push("/mypage/like");
+          }}
+        >
+          좋아요 누른 게시물
+        </div>
+        <div
+          onClick={() => {
+            history.push("/mypage/auth");
+          }}
+        >
+          개인정보 수정
+        </div>
       </Wrap>
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default SideBar;
 
@@ -40,10 +56,9 @@ const Wrap = styled.div`
     font-weight: 700;
     cursor: pointer;
     color: #fff;
-  
+
     &:hover {
       background: #ffc72b;
     }
   }
-
 `;

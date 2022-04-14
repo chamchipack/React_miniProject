@@ -1,26 +1,53 @@
-import "../shared/App.css";
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Article from "../components/Article";
-import { BsPatchPlus } from "react-icons/bs";
+import { BsPlusCircleFill } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as articleActions } from "../redux/modules/article";
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 const Main = (props) => {
   const { history } = props;
   const dispatch = useDispatch();
   const articleList = useSelector((state) => state.article.list);
-  
+
   React.useEffect(() => {
     dispatch(articleActions.getArticleFB());
   }, []);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
   return (
     <>
-    
-      <img className="bgImage" src="main.png" />
-      <img className="bgImage" src="main.png" />
-      <BsPatchPlus
+      <Slider {...settings}>
+        <div>
+          <h3>1</h3>
+        </div>
+        <div>
+          <h3>2</h3>
+        </div>
+        <div>
+          <h3>3</h3>
+        </div>
+        <div>
+          <h3>4</h3>
+        </div>
+        <div>
+          <h3>5</h3>
+        </div>
+        <div>
+          <h3>6</h3>
+        </div>
+      </Slider>
+      <BsPlusCircleFill
         className="plus"
         size={60}
         onClick={() => {

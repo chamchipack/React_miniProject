@@ -5,29 +5,30 @@ import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as articleActions } from "../redux/modules/article";
 import Article from "../components/Article";
 import SideBar from "../components/SideBar";
+import { getCookie } from "../shared/Cookie";
 
 const MyPage = () => {
   const dispatch = useDispatch();
   const articleList = useSelector((state) => state.article.list);
+  const cookie = getCookie("is_login");
 
   React.useEffect(() => {
-    dispatch(articleActions.getArticleFB());
+    dispatch(articleActions.getMyArticleFB(cookie));
   }, []);
 
   return (
     <React.Fragment>
-      
       <ArticleList>
         {articleList.map((a, idx) => {
           return <Article key={a.articleNum} {...a} />;
         })}
       </ArticleList>
       <Bar>
-        <SideBar/>
+        <SideBar />
       </Bar>
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default MyPage;
 
