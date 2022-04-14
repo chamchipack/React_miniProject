@@ -18,6 +18,7 @@ const MyPage = () => {
 
   return (
     <React.Fragment>
+      <Wrap>내가 올린 게시물</Wrap>
       <ArticleList>
         {articleList.map((a, idx) => {
           return <Article key={a.articleNum} {...a} />;
@@ -41,6 +42,20 @@ const Bar = styled.div`
   &:hover {
     left: -10px;
   }
+`;
+
+const Wrap = styled.div`
+  box-sizing: border-box;
+  padding: 20px;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 100px;
+  box-shadow: 0px 7px 10px #ccc;
+  border-radius: 10px;
 `;
 
 const ArticleList = styled.div`

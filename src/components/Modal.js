@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import {actionCreators as postActions} from '../redux/modules/post';
@@ -6,6 +6,8 @@ import {actionCreators as commentActions} from '../redux/modules/comment';
 import {actionCreators as articleActions} from '../redux/modules/article';
 import {actionCreators as imageActions} from '../redux/modules/image';
 import {Grid, Input, Image, Button, Text} from '../elements/index';
+import moment from "moment"; 
+import "moment/locale/ko";
 import {FaHeart} from 'react-icons/fa'
 import {getCookie} from '../shared/Cookie';
 import Permit from './Permit';
@@ -34,16 +36,19 @@ function Modal(props){
     }
 
     const checkLog = () => {
-    if(cookie){
+      if(cookie){
         const current_id = parseToken(cookie);
         const checked = judged(like_list, current_id.userId);
         return checked
-        }
+      }
     }
+    const textRef = useRef([]);
 
     useEffect(()=>{
-        dispatch(commentActions.getCommentDB(props.articleNum));
-        dispatch(postActions.getLikeDB(props.articleNum));
+      dispatch(commentActions.getCommentDB(props.articleNum));
+      dispatch(postActions.getLikeDB(props.articleNum));
+      // textRef.current.value = post.articleDesc;
+      // fileInput = post.articleThumb;
     },[])
 
     const post = props.data
@@ -66,10 +71,11 @@ function Modal(props){
         setWrite({thing:''});
       }
 
-  const textRef = useRef(null);
 
   const deleteArticle = () => {
-    dispatch(articleActions.deleteArticleFB(post.articleNum, cookie));
+    if (window.confirm("정말 삭제하시겠어요?")) {
+      dispatch(articleActions.deleteArticleFB(post.articleNum, cookie));
+    }
   };
 
   const preview = useSelector((state) => state.image.preview);
@@ -121,7 +127,7 @@ function Modal(props){
       }
     dispatch(postActions.clickLikeDB(post.articleNum, liked, cookie))
     dispatch(postActions.setLiked(parseToken(cookie).userId, liked))
-    }
+  };
 
   return (
     <>
@@ -234,7 +240,7 @@ function Modal(props){
                     <Text size="20px">{post.userInfo.userName}</Text>
                   </div>
                   <Grid width="40%">
-                    <Text>{post.articleDate}</Text>
+                    <Text>{moment(post.articleDate).fromNow()}</Text>
                     <Text>
                       댓글 {post.articleCommentNum}개 좋아요
                       {post.articleLikeNum}개
@@ -298,6 +304,7 @@ export const Modalwhite = styled.div`
 export const ContentTop = styled.div`
   width: 100%;
   height: 20%;
+  border: 1px solid #000;
 `;
 export const ContentBot = styled.div`
   width: 100%;
@@ -307,9 +314,9 @@ export const ContentBot = styled.div`
 `;
 export const TextArea = styled.input`
   resize: none;
-  width: 90%;
+  width: 100%;
   height: 50px;
-  border: 3px solid gray;
+  border: 1px solid gray;
   border-radius: 10px;
   padding: 10px;
   font-size: 20px;
