@@ -123,7 +123,9 @@ function Modal(props){
 
   const deleteComment = (commentNum, token) => {
     console.log(token)
-    dispatch(commentActions.deleteCommentDB(commentNum, token))
+    if(window.confirm('정말 삭제하시겠어요?')){
+      dispatch(commentActions.deleteCommentDB(commentNum, token))
+    }
   }
 
   return (
