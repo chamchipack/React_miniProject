@@ -10,7 +10,7 @@ const SET_LIKED = "SET_LIKED"
 const setPost = createAction(SET_POST, (post_list) => ({post_list}));
 const addPost = createAction(ADD_POST, (post) => ({post}));
 const setModal = createAction(SET_MODAL, (data_list)=>({data_list}));
-const setLiked = createAction(SET_LIKED, (liked)=> ({liked}));
+const setLiked = createAction(SET_LIKED, (id, liked)=> ({id, liked}));
 
 
 const initialState = {
@@ -52,8 +52,8 @@ const clickLikeDB = (articleNum, like, token) => {
       }
     })
     .then(response =>{
-      dispatch(setLiked(response))
-      history.replace("/");
+      console.log(response)
+      // dispatch(setLiked(response.data.result))
     })
     .catch(error => {
       console.log(error)
@@ -97,7 +97,11 @@ export default handleActions(
       draft.list = action.payload.comment
     }),
     [SET_LIKED] : (state, action) => produce(state, (draft) => {
-      draft.list = action.payload.like_idList;
+      if(action.payload.liked == true){
+          draft.list = draft.list.filter(element => element !== action.payload.id)
+      } else {
+        draft.list.push(action.payload.id)
+      }
     })
   }, initialState
 );

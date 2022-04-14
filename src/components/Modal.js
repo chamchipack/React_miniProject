@@ -13,7 +13,6 @@ import Permit from './Permit';
 function Modal(props){
     const dispatch = useDispatch();
     const cookie = getCookie("is_login");
-    const textInput = useRef();
     const comment_list = useSelector(state => state.comment.list)
     const like_list = useSelector(state => state.post.list);
     const [write, setWrite] = useState({thing : ''});
@@ -121,8 +120,8 @@ function Modal(props){
         liked = false
       }
     dispatch(postActions.clickLikeDB(post.articleNum, liked, cookie))
+    dispatch(postActions.setLiked(parseToken(cookie).userId, liked))
     }
-  
 
   return (
     <>
