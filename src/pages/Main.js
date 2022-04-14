@@ -11,6 +11,7 @@ const Main = (props) => {
   const { history } = props;
   const dispatch = useDispatch();
   const articleList = useSelector((state) => state.article.list);
+  const is_session = sessionStorage.getItem("token")? true : false;
   
   React.useEffect(() => {
     dispatch(articleActions.getArticleFB());
@@ -20,13 +21,17 @@ const Main = (props) => {
     
       <img className="bgImage" src="main.png" />
       <img className="bgImage" src="main.png" />
-      <BsPatchPlus
-        className="plus"
-        size={60}
-        onClick={() => {
-          history.push("/add");
-        }}
-      />
+      {
+        is_session
+        ? <BsPatchPlus
+          className="plus"
+          size={60}
+          onClick={() => {
+            history.push("/add");
+          }}
+        />
+        : null
+      }
       <ArticleList>
         {articleList.map((a, idx) => {
           return <Article key={a.articleNum} {...a} />;
