@@ -9,7 +9,6 @@ import Article from "./Article";
 const MyLikeArticle = () => {
   const dispatch = useDispatch();
   const articleList = useSelector((state) => state.user.list);
-  console.log(articleList)
 
   React.useEffect(() => {
     dispatch(articleActions.getLikeArticleDB());

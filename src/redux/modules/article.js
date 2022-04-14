@@ -49,7 +49,6 @@ const getArticleFB = () => {
         dispatch(setArticle(articleList));
       })
       .catch((error) => {
-        console.log(error);
       });
   };
 };
@@ -72,7 +71,6 @@ const getMyArticleFB = (token) => {
         dispatch(setArticle(articleList));
       })
       .catch((error) => {
-        console.log(error);
       });
   };
 };

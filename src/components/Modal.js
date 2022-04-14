@@ -117,7 +117,6 @@ function Modal(props){
   
 
   const likeClick = () => {
-    console.log(checkLog())
       if(checkLog() == true){
         liked = checkLog();
       } else {
@@ -128,7 +127,6 @@ function Modal(props){
   };
 
   const deleteComment = (commentNum, token) => {
-    console.log(token)
     if(window.confirm('정말 삭제하시겠어요?')){
       dispatch(commentActions.deleteCommentDB(commentNum, token))
     }
@@ -219,7 +217,7 @@ function Modal(props){
                 {update === true ? (
                   <TextArea name="text" ref={textRef} />
                 ) : (
-                  <Text>{post.articleDesc}</Text>
+                  <Text size={'20px'}>{post.articleDesc}</Text>
                 )}
                 <FaHeart
                   onClick={() => {
@@ -242,7 +240,7 @@ function Modal(props){
                     <Image shape="circle" size="50" />
                   </div>
                   <div style={{ marginLeft: "-30%" }}>
-                    <Text size="20px">{post.userInfo.userName}</Text>
+                    <Text size="20px">{post.userName}</Text>
                   </div>
                   <Grid width="40%">
                     <Text>{moment(post.articleDate).fromNow()}</Text>
@@ -255,16 +253,15 @@ function Modal(props){
               </ContentTop>
               <ContentBot>
                 {/* 이 부분부터 댓글 반복문 시작 */}
-                <div style={{ height: "270px", background: "#eee" }}>
+                <div style={{ height: "270px", border:'1px solid gray', borderRadius:'10px'}}>
                   {comment_list.map((element, i) => {
-                    console.log(element)
                     return (
-                      <div style={{ display: "flex", height:'30px'}}>
-                        <div style={{float:'left', width:'100px'}}><p style={{}}>{element.userName}</p></div>
+                      <div key={element.commentNum} style={{ display: "flex", height:'30px'}}>
+                        <div style={{float:'left', width:'100px'}}><p style={{fontWeight:'bold'}}>{element.userName}</p></div>
                         <div style={{float:'left', textAlign:'left', width:'200px'}}><p style={{ marginLeft: "10px" }}>{element.contents}</p></div>
                         {
                           element.userId == parseToken(cookie).userId
-                          ? <div style={{float:'right', marginTop:'3%'}}><button onClick={()=>{deleteComment(element.commentNum, cookie)}}>삭제</button></div>
+                          ? <div style={{float:'right', marginTop:'3%'}}><button style={{border:'none', background:'#eee', borderRadius:'5px'}} onClick={()=>{deleteComment(element.commentNum, cookie)}}>삭제</button></div>
                           : null
                         }
                       </div>
@@ -315,7 +312,6 @@ export const Modalwhite = styled.div`
 export const ContentTop = styled.div`
   width: 100%;
   height: 20%;
-  border: 1px solid #000;
 `;
 export const ContentBot = styled.div`
   width: 100%;

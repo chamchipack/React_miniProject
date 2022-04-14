@@ -22,30 +22,6 @@ const uploadImageDB = (imageFile) => {
   }
 }
 
-// const uploadImageFB = (image) => {
-//   return function (dispatch, getState, { history }) {
-//     dispatch(uploading(true));
-
-//     console.log(`images/${new Date().getTime()}_${image.name}`);
-//     const _upload = storage.ref(`images/${image.name}`).put(image);
-
-//     // 업로드
-//     _upload
-//       .then((snapshot) => {
-//         console.log(snapshot);
-//         dispatch(uploading(false));
-//         snapshot.ref.getDownloadURL().then((url) => {
-//           dispatch(uploadImage(url));
-//           console.log(url);
-//         });
-//       })
-//       .catch((err) => {
-//         dispatch(uploading(false));
-//       });
-//   };
-// };
-
-
 // reducer
 export default handleActions(
   {

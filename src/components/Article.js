@@ -8,7 +8,6 @@ import "moment/locale/ko";
 
 const Article = (props) => {
   const [getModal, setModal] = useState(false);
-  // console.log(props.userInfo.userProfile)
   return (
     <Wrap>
     {
@@ -25,7 +24,7 @@ const Article = (props) => {
           <div style={{display: "flex", justifyContent: "space-between"}}>            
             <Text bold margin="15px 30px 0 0">
               <Image shape="circle" />
-              {props.userInfo.userName}
+              {props.userId}
             </Text>
             <Text>{moment(props.articleDate).fromNow()}</Text>
           </div>

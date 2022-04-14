@@ -22,7 +22,7 @@ const MyPageAuth = () => {
     <React.Fragment>
       <Wrap>
         <Content>
-          <Input label="비밀번호 확인" placeholder="비밀번호를 입력해주세요."
+          <Input type='password' label="비밀번호 확인" placeholder="비밀번호를 입력해주세요."
             _onChange={(e) => { 
               setPw(e.target.value);
           }}/>

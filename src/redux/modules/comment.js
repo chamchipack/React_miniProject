@@ -28,7 +28,6 @@ const addCommentDB = (token, articleNum, text) => {
         },
       })
       .then(response=>{
-        console.log(response.data.comment)
         dispatch(addComment(response.data.comment))
       })
       .catch(error =>{
@@ -66,7 +65,6 @@ const addCommentDB = (token, articleNum, text) => {
         },
       })
       .then(response => {
-        console.log(response)
         dispatch(deleteComment(commentNum))
       })
       .catch(error => {
@@ -78,7 +76,6 @@ const addCommentDB = (token, articleNum, text) => {
   export default handleActions(
     {
       [ADD_COMMENT]: (state, action) => {
-        console.log(state);
         return {
           ...state,
           list : state.list.concat(action.payload.post)

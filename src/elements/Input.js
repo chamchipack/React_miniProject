@@ -3,9 +3,9 @@ import styled from "styled-components";
 
 const Input = (props) => {
 
-  const {size, padding, margin, placeholder, label, _onChange} = props;
+  const {size, padding, margin, placeholder, label, _onChange, type} = props;
 
-  const styles = { size: size, margin: margin, padding: padding, placeholder: placeholder, label: label, _onChange };
+  const styles = { size: size, margin: margin, padding: padding, placeholder: placeholder, label: label, _onChange, type };
 
   return (
     <React.Fragment>
