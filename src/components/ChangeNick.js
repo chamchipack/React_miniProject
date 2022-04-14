@@ -106,5 +106,5 @@ const Button = styled.button`
 const Bar = styled.div`
   position: fixed;
   top: 150px;
-  left: 0;
+  left: -10px;
 `;

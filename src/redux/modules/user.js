@@ -9,11 +9,13 @@ import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
 const LOG_OUT = "LOG_OUT";
 const SET_USER = "SET_USER";
 const SET_PROFILE = "SET_PROFILE"
+const SET_MYLIKE = "SET_MYLIKE"
 
 // action creators
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 const setUser = createAction(SET_USER, (user) => ({ user }));
 const setProfile = createAction(SET_PROFILE, (user) => ({ user }));
+const setMyLike = createAction(SET_MYLIKE, (articleList) => ({ articleList }));
 
 
 // initialState
@@ -21,6 +23,7 @@ const initialState = {
   user: null,
   is_login: false,
   profile: null,
+  list: []
 };
 
 // 미들웨어
@@ -126,6 +129,32 @@ const editProfileDB = (formData) => {
   }
 }
 
+// 마이페이지에서 좋아요 누른 게시물 가져오기
+const getLikeArticleDB = () => {
+  const cookie = getCookie("is_login");
+  return function (dispatch, getState, {history}) {
+    axios({
+      method: "get",
+      url: "http://3.35.27.190/api/articleLike",
+      headers: {
+        Authorization: `Bearer${cookie}`,
+        'Content-Type': 'multipart/form-data',
+      }
+    }).then(res => {
+      let articleList = [];
+      const articles = res.data.articles;
+      articles.forEach((article) => {
+        articleList.push(article);
+      })
+      dispatch(setMyLike(articleList));
+      console.log(articleList);
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+}
+
+
 // reducer
 export default handleActions(
   {
@@ -144,6 +173,10 @@ export default handleActions(
     [SET_PROFILE]: (state, action) =>
       produce(state, (draft) => {
         draft.profile = action.payload.user;
+      }),
+    [SET_MYLIKE]: (state, action) => 
+      produce(state, (draft) => {
+        draft.list = action.payload.articleList;
       })
   },
   initialState
@@ -158,6 +191,7 @@ const actionCreators = {
   logOutDB,
   checkPwDB,
   editProfileDB,
+  getLikeArticleDB,
 };
 
 export { actionCreators };

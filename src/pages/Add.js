@@ -52,7 +52,7 @@ function Add(){
     
     return(
         <>
-        <Grid center width='60%' margin='0 auto' border='3px solid green'>
+        <Grid center width='60%' margin='0 auto' >
             <Grid>
                 <Text size='30px' bold='30'>게시물 작성</Text>
             </Grid>
@@ -91,10 +91,10 @@ export const Select = styled.select`
     background-color : #eee;
 `
 export const TextArea = styled.input`
-resize: none;
+    resize: none;
     width: 48%;
     height: 200px;
-    border: 3px solid gray;
+    border: 1px solid gray;
     border-radius: 10px;
     padding: 10px;
     font-size : 20px;

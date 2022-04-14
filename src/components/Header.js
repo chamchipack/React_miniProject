@@ -138,8 +138,13 @@ const Header = (props) => {
 };
 
 const HeaderDiv = styled.div`
+<<<<<<< HEAD
   background: #fff;
   height: 80px;
+=======
+  background: #fafafa;
+  height: 60px;
+>>>>>>> ae84a85d38292ef50cbdbd9162e1bb64a57fb9c8
   width: 100%;
   color: #2474C2;
   display: flex;
