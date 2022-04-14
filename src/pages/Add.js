@@ -69,7 +69,8 @@ function Add(){
                 <img style={{borderRadius:'20px', width:'50%', margin:'10px'}} src={preview? preview : "http://via.placeholder.com/400x300"}/>
             </Grid>
             <Grid margin='2% -14% 2%'>
-                <input accept='image/*' type='file' ref={fileInput} onChange={changePreview} />
+                <Label for='file'>업로드</Label>
+                <input style={{fontSize:'15px', width:'1px'}} accept='image/*' type='file' ref={fileInput} onChange={changePreview} id='file' />
             </Grid>
             <Grid>
                 <TextArea name='text' value={text} onChange={onChange} />
@@ -83,12 +84,15 @@ function Add(){
 }
 
 export const Select = styled.select`
-    width:100px;
+    width:130px;
     height:30px;
     margin-top: 20%;
     margin-bottom: 10%;
+    margin-left: 15px;
     border: none;
     background-color : #eee;
+    border-radius:10px;
+    font-size:16px;
 `
 export const TextArea = styled.input`
     resize: none;
@@ -98,6 +102,14 @@ export const TextArea = styled.input`
     border-radius: 10px;
     padding: 10px;
     font-size : 20px;
+`
+export const Label = styled.label`
+    border:0.3px solid gray;
+    border-radius:10px;
+    padding:5px;
+    width:40px;
+    height:20px;
+    font-size:20px;
 `
 
 export default Add

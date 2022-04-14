@@ -13,11 +13,9 @@ import Permit from './Permit';
 function Modal(props){
     const dispatch = useDispatch();
     const cookie = getCookie("is_login");
-    const textInput = useRef();
     const comment_list = useSelector(state => state.comment.list)
-    const like_list = useSelector(state => state.post.list)
-    const what = useSelector(state => state.article.list);
-    
+    const like_list = useSelector(state => state.post.list);
+    const [write, setWrite] = useState({thing : ''});
     
     const parseToken = (token = 'null') => {
         try {
@@ -30,7 +28,9 @@ function Modal(props){
     const judged = (list = 'null', id = 'null') => {
         if(list.includes(id)){
             return true
-        } 
+        } else {
+            return false
+        }
     }
 
     const checkLog = () => {
@@ -51,10 +51,20 @@ function Modal(props){
     let setModal = props.setModal;
     let getModal = props.getModal;
     let liked = true;
-    
-    const submit = () => {
-        dispatch(commentActions.addCommentDB(cookie, post.articleNum, textInput.current.value))
+
+    const {thing} = write; 
+    const onChange = (e) => {
+      const {name, value} = e.target;
+      setWrite({
+        ...write,
+        [name] : value
+      })
     }
+
+    const submit = () => {
+        dispatch(commentActions.addCommentDB(cookie, post.articleNum, write.thing));
+        setWrite({thing:''});
+      }
 
   const textRef = useRef(null);
 
@@ -100,17 +110,18 @@ function Modal(props){
     }
     dispatch(articleActions.editArticleFB(formData, cookie));
   };
+  
 
   const likeClick = () => {
-    if(checkLog() == true){
+    console.log(checkLog())
+      if(checkLog() == true){
         liked = checkLog();
-    } else {
+      } else {
         liked = false
-    }
+      }
     dispatch(postActions.clickLikeDB(post.articleNum, liked, cookie))
+    dispatch(postActions.setLiked(parseToken(cookie).userId, liked))
     }
-
-  
 
   return (
     <>
@@ -208,7 +219,7 @@ function Modal(props){
                     right: "10",
                     bottom: "10",
                     fontSize: "50px",
-                    color: checkLog() == true ? "red" : "gray",
+                    color: checkLog() == true ? 'red' : 'gray',
                   }}
                 />
               </Grid>
@@ -236,18 +247,16 @@ function Modal(props){
                 <div style={{ height: "270px", background: "#eee" }}>
                   {comment_list.map((element, i) => {
                     return (
-                      <div style={{ display: "flex" }}>
-                        <span style={{}}>{element.userName}</span>
-                        <span style={{ marginLeft: "10px" }}>
-                          {element.contents}
-                        </span>
+                      <div style={{ display: "flex", height:'30px'}}>
+                        <div style={{float:'left', width:'100px'}}><p style={{}}>{element.userName}</p></div>
+                        <div style={{float:'left'}}><p style={{ marginLeft: "10px" }}>{element.contents}</p></div>
                       </div>
                     );
                   })}
                 </div>
                 {/* 여기까지 댓글 반복문 */}
                 <div>
-                  <TextArea ref={textInput}></TextArea>
+                  <TextArea onChange={onChange} name='thing' value={thing}></TextArea>
                 </div>
                 <Button
                   width="100px"

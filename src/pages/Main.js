@@ -12,7 +12,8 @@ const Main = (props) => {
   const { history } = props;
   const dispatch = useDispatch();
   const articleList = useSelector((state) => state.article.list);
-
+  const is_session = sessionStorage.getItem("token")? true : false;
+  
   React.useEffect(() => {
     dispatch(articleActions.getArticleFB());
   }, []);
@@ -47,13 +48,18 @@ const Main = (props) => {
           <h3>6</h3>
         </div>
       </Slider>
-      <BsPlusCircleFill
+      {
+        is_session
+        ? <BsPlusCircleFill
         className="plus"
         size={60}
         onClick={() => {
           history.push("/add");
         }}
       />
+      : null
+      }
+      
       <ArticleList>
         {articleList.map((a, idx) => {
           return <Article key={a.articleNum} {...a} />;
