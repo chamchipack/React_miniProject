@@ -38,7 +38,7 @@ const Bar = styled.div`
   transition: 0.5s;
 
   &:hover {
-    left: 0px;
+    left: -10px;
   }
 `;
 
