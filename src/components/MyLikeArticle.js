@@ -31,7 +31,7 @@ const MyLikeArticle = () => {
     </React.Fragment>
   );
 };
-
+    
 export default MyLikeArticle;
 
 const Wrap = styled.div`
