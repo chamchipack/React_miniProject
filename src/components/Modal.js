@@ -166,6 +166,7 @@ function Modal(props){
             <Button
               _onClick={() => {
                 setModal(!getModal);
+                window.location.reload();
               }}
               width="50px"
               margin="0 0 0 40%"

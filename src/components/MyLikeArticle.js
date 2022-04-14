@@ -2,26 +2,27 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import SideBar from "./SideBar";
-import Article from "./Article";
+import { actionCreators as articleActions } from "../redux/modules/article";
+import { getCookie } from "../shared/Cookie";
+import Article from "../components/Article";
 
 const MyLikeArticle = () => {
   const dispatch = useDispatch();
-  const articleList = useSelector((state) => state.user.list);
+  const articleList = useSelector((state) => state.article.list);
+  const cookie = getCookie("is_login");
 
   React.useEffect(() => {
-    dispatch(articleActions.getLikeArticleDB());
-  }, [])
+    dispatch(articleActions.getMyLikeArticleFB(cookie));
+  }, []);
 
   return (
     <React.Fragment>
-      
       <Wrap>내가 좋아요 누른 게시물</Wrap>
       <ArticleList>
-      {articleList.map((v, i) => {
-        return <Article key={v.articleNum} {...v} />
-      })}
+        {articleList.map((a, idx) => {
+          return <Article key={a.articleNum} {...a} />;
+        })}
       </ArticleList>
-
       <Bar>
         <SideBar />
       </Bar>
@@ -31,7 +32,6 @@ const MyLikeArticle = () => {
     
 export default MyLikeArticle;
 
-<<<<<<< HEAD
 const ArticleList = styled.div`
   display: grid;
   grid-gap: 1rem;
@@ -44,8 +44,6 @@ const ArticleList = styled.div`
   left: -10px;
 `;
 
-=======
->>>>>>> a005a96c6bc4f4a72fa9a9f7477b280e414a9c5b
 const Wrap = styled.div`
   box-sizing: border-box;
   padding: 20px;
@@ -64,20 +62,4 @@ const Bar = styled.div`
   position: fixed;
   top: 150px;
   left: 0;
-<<<<<<< HEAD
 `;
-=======
-`;
-
-const ArticleList = styled.div`
-  display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  margin: 60px auto 0 auto;
-  width: 80%;
-  left: -10px;
-`;
->>>>>>> a005a96c6bc4f4a72fa9a9f7477b280e414a9c5b
