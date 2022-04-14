@@ -30,7 +30,6 @@ const addPostDB = (formData, token) => {
       },
     })
     .then(response=>{
-      console.log(response)
     })
     .catch(error =>{
       console.log(error)
@@ -39,7 +38,7 @@ const addPostDB = (formData, token) => {
 }
 
 const clickLikeDB = (articleNum, like, token) => {
-  return function(dispatch){
+  return function(dispatch, {history}){
     console.log(articleNum, like, token)
     axios({
       method : 'post',
@@ -53,8 +52,8 @@ const clickLikeDB = (articleNum, like, token) => {
       }
     })
     .then(response =>{
-      console.log(response.like)
-      // dispatch(setLiked(response.like))
+      dispatch(setLiked(response))
+      history.replace("/");
     })
     .catch(error => {
       console.log(error)
